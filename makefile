@@ -1,75 +1,63 @@
-.PHONY: all clean fclean re
+# **************************************************************************** #
+#                               cub3D Makefile                                 #
+# **************************************************************************** #
 
-# Program file name
-NAME	= cub3D
+NAME        = cub3D
 
-# Compiler and compilation flags
-CC		= gcc
-CFLAGS	= -Wall -Wextra -Werror -g3
-# CFLAGS += -fsanitize=address  # Uncomment for debugging
+CC          = gcc
+CFLAGS      = -Wall -Wextra -Werror -g
 
-# Minilibx
-MLX_PATH	= minilibx-linux/
-MLX_NAME	= libmlx.a
-MLX			= $(MLX_PATH)$(MLX_NAME)
+# Directories
+SRC_DIR     = src
+OBJ_DIR     = objects
+LIBFT_DIR   = libft
+MLX_DIR     = minilibx-linux
 
-# Libft
-LIBFT_PATH	= libft/
-LIBFT_NAME	= libft.a
-LIBFT		= $(LIBFT_PATH)$(LIBFT_NAME)
+# Libraries
+LIBFT       = $(LIBFT_DIR)/libft.a
+MLX         = $(MLX_DIR)/libmlx.a
 
 # Sources
-SRC_PATH = ./src/
-SRC		= 	main.c \
-			parsing/check_map.c\
-			parsing/read_map.c
+SRC_FILES   = main.c \
+              parsing/file_validation.c \
+              parsing/read_map.c \
+              parsing/map_validation.c \
+			  parsing/utils_0.c\
+			  parsing/utils_1.c\
+              getnextline/get_next_line.c \
+              getnextline/get_next_line_utils.c
 
-SRCS	= $(addprefix $(SRC_PATH), $(SRC))
-
-# Objects
-OBJ_PATH	= ./objects/
-OBJ			= $(SRC:.c=.o)
-OBJS		= $(addprefix $(OBJ_PATH), $(OBJ))
+SRC         = $(addprefix $(SRC_DIR)/, $(SRC_FILES))
+OBJ         = $(addprefix $(OBJ_DIR)/, $(SRC_FILES:.c=.o))
 
 # Includes
-INC			=	-I ./includes/ \
-				-I ./libft/ \
-				-I ./minilibx-linux/
+INCLUDES    = -Iincludes -I$(LIBFT_DIR) -I$(MLX_DIR)
 
-# Main rule
-all: $(OBJ_PATH) $(MLX) $(LIBFT) $(NAME)
+# Compile and link
+$(OBJ_DIR)/%.o: $(SRC_DIR)/%.c
+	@mkdir -p $(dir $@)
+	$(CC) $(CFLAGS) $(INCLUDES) -c $< -o $@
 
-# Create object directories
-$(OBJ_PATH):
-	mkdir -p $(OBJ_PATH)
-	mkdir -p $(OBJ_PATH)/parsing
+$(NAME): $(LIBFT) $(MLX) $(OBJ)
+	$(CC) $(CFLAGS) $(OBJ) $(LIBFT) $(MLX) -lm -lXext -lX11 -o $(NAME)
 
-# Compile .c → .o
-$(OBJ_PATH)%.o: $(SRC_PATH)%.c
-	$(CC) $(CFLAGS) -c $< -o $@ $(INC)
+all: $(NAME)
 
-# Link program
-$(NAME): $(OBJS)
-	$(CC) $(CFLAGS) $(OBJS) -o $@ $(INC) $(LIBFT) $(MLX) -lXext -lX11 -lm
-
-# Build Libft
 $(LIBFT):
-	make -C $(LIBFT_PATH)
+	$(MAKE) -C $(LIBFT_DIR)
 
-# Build MLX
 $(MLX):
-	make -C $(MLX_PATH)
+	$(MAKE) -C $(MLX_DIR)
 
-# Clean object files
 clean:
-	rm -rf $(OBJ_PATH)
-	make -C $(LIBFT_PATH) clean
-	make -C $(MLX_PATH) clean
+	$(MAKE) clean -C $(LIBFT_DIR)
+	$(MAKE) clean -C $(MLX_DIR)
+	rm -rf $(OBJ_DIR)
 
-# Remove program executable
 fclean: clean
+	$(MAKE) fclean -C $(LIBFT_DIR)
 	rm -f $(NAME)
-	make -C $(LIBFT_PATH) fclean
 
-# Clean + rebuild
 re: fclean all
+
+.PHONY: all clean fclean re
