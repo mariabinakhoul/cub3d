@@ -6,7 +6,7 @@
 /*   By: raldanda <raldanda@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/04 18:03:08 by raldanda          #+#    #+#             */
-/*   Updated: 2025/07/10 04:11:12 by raldanda         ###   ########.fr       */
+/*   Updated: 2025/07/13 20:38:13 by raldanda         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,47 +40,72 @@ int	parse_line(char *line, t_map_data *data)
 	return (free_split(sp), ret ? 1 : 0);
 }
 
-void parse_map_lines(int fd, t_map_data *data, char *first_line)
+int	parse_cub_file(char *filename, t_map_data *data)
 {
-	char *line;
-	int i = 0;
-	char **map = malloc(sizeof(char *) * 1000);
-	if (!map)
-		exit_error("Malloc failed\n");
-	if (first_line && !is_space_str(first_line))
-		map[i++] = ft_strdup(first_line);
-	while ((line = get_next_line(fd)))
-	{
-		if (!is_space_str(line))
-			map[i++] = ft_strdup(line);
-		free(line);
-	}
-	map[i] = NULL;
-	data->map_lines = map;
-	validate_map(data);
-}
+	char	*line;
+	char	**lines;
+	int		fd;
+	int		idx;
+	int		id;
+	int		code;
+	char	*trimmed;
 
-int parse_cub_file(char *filename, t_map_data *data)
-{
-	int fd = open(filename, O_RDONLY);
-	char *line;
-	int code;
-	int id_count = 0;
-
-	if (!is_cub_file(filename) || fd < 0)
+	/* ───── sanity check on the file name ───── */
+	if (!is_cub_file(filename))
 		return (0);
+
+	/* ───── read the whole file into memory ───── */
+	lines = malloc(sizeof(char *) * 10000);			/* ample room */
+	if (!lines)
+		exit_error("Memory error\n");
+
+	if ((fd = open(filename, O_RDONLY)) < 0)
+		return (free(lines), 0);
+
+	idx = 0;
 	while ((line = get_next_line(fd)))
 	{
-		if (is_space_str(line))
-			{ free(line); continue; }
-		code = parse_line(line, data);
-		if (code == 1)
-			id_count++;
-		else if (code == 2 && id_count == 6)
-			return (parse_map_lines(fd, data, line), close(fd), 1);
-		else
-			return (free(line), close(fd), 0);
+		lines[idx++] = ft_strdup(line);				/* keep \n for reference */
 		free(line);
 	}
-	return (close(fd), 0);
+	lines[idx] = NULL;
+	close(fd);
+
+	/* ───── stage 1: parse the six header identifiers ───── */
+	id  = 0;
+	idx = 0;
+	while (lines[idx] && id < 6)
+	{
+		if (is_space_str(lines[idx]))				/* ignore empty / all-space lines */
+		{	idx++; continue; }
+
+		/* feed a *trimmed* copy to the element parser */
+		trimmed = ft_strtrim(lines[idx], " \t\r\n");
+		if (!trimmed)
+			return (free(lines), 0);
+
+		code = parse_line(trimmed, data);			/* user-supplied helper */
+		free(trimmed);
+
+		/* In most student projects:  
+		   - 1  → valid texture path  
+		   - 2  → valid colour (F or C)             */
+		if (code == 1 || code == 2)					/* success */
+			id++;
+		else										/* anything else is fatal */
+			return (free(lines), 0);
+		idx++;
+	}
+	if (id < 6)										/* not enough identifiers */
+		return (free(lines), 0);
+
+	/* ───── stage 2: find the first map row ───── */
+	while (lines[idx] && is_space_str(lines[idx]))
+		idx++;
+	if (!lines[idx])								/* header but no map */
+		return (free(lines), 0);
+
+	data->map_lines = &lines[idx];					/* hand over ownership */
+	validate_map(data);							/* exits or sets its own error flag */
+	return (1);
 }

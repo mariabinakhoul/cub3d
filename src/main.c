@@ -6,20 +6,32 @@
 /*   By: raldanda <raldanda@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/04 23:10:17 by raldanda          #+#    #+#             */
-/*   Updated: 2025/07/10 04:12:36 by raldanda         ###   ########.fr       */
+/*   Updated: 2025/07/13 14:20:43 by raldanda         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub.h"
 
-int main(int argc, char **argv)
+int	main(int argc, char **argv)
 {
-	t_map_data data;
+	t_map_data	data;
+	char		*clean;
+
 	if (argc != 2)
-		return (write(2, "Usage: ./maps <map0.cub>\n", 26), 1);
-	ft_bzero(&data, sizeof(t_map_data));
-	if (!parse_cub_file(argv[1], &data))
-		return (write(2, "Error\nFailed to parse .cub file\n", 32), 1);
-	write(1, "Success\n", 9);
+		return (write(2, "Usage: ./cub3D <map.cub>\n", 25), 1);
+	clean = ft_strdup(argv[1]);
+	if (!clean)
+		exit_error("Memory error");
+	// strip any trailing slashes here, too, before parsing
+	int i = ft_strlen(clean) - 1;
+	while (i >= 0 && clean[i] == '/')
+		clean[i--] = '\0';
+
+	ft_bzero(&data, sizeof(data));
+	if (!parse_cub_file(clean, &data))
+		return (free(clean),
+			write(2, "Error\nFailed to parse .cub file\n", 32), 1);
+	free(clean);
+	write(1, "Success\n", 8);
 	return (0);
 }

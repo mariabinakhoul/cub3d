@@ -6,7 +6,7 @@
 /*   By: raldanda <raldanda@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/01 11:33:38 by raldanda          #+#    #+#             */
-/*   Updated: 2025/07/10 00:13:25 by raldanda         ###   ########.fr       */
+/*   Updated: 2025/07/13 20:51:27 by raldanda         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,14 +63,13 @@ int		parse_color(char *line, t_color *color);
 int		set_texture(char **dst, char *value);
 int		parse_line(char *line, t_map_data *data);
 void	flood_fill(char **map, int x, int y);
-void parse_map_lines(int fd, t_map_data *data, char *first_line);
+void	parse_map_lines(int fd, t_map_data *data, char *first_line);
 int		parse_cub_file(char *filename, t_map_data *data);
 char	**ft_split_ws(char *line);
 void	free_map(char **map);
 char	**dup_map(char **map);
 int		check_map_character(char **map);
 void	validate_map(t_map_data *data);
-//map validation
 int		is_in_charset(char c, char *charset);
 int		count_words(char *str, char *charset);
 char	*word_dup(char *str, char *charset);

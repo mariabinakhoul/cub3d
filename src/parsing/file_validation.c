@@ -6,7 +6,7 @@
 /*   By: raldanda <raldanda@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/01 12:11:28 by raldanda          #+#    #+#             */
-/*   Updated: 2025/07/10 04:10:52 by raldanda         ###   ########.fr       */
+/*   Updated: 2025/07/13 16:22:21 by raldanda         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,12 @@
 
 int	is_cub_file(char *filename)
 {
-	int len = ft_strlen(filename);
+	int	len;
+
+	len = ft_strlen(filename);
+	// drop any trailing '/' chars
+	while (len > 0 && filename[len - 1] == '/')
+		len--;
 	if (len < 4)
 		return (0);
 	return (!ft_strncmp(filename + len - 4, ".cub", 4));

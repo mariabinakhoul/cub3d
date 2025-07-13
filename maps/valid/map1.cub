@@ -3,8 +3,8 @@ SO ./textures/south.xpm
 WE ./textures/west.xpm
 EA ./textures/east.xpm
 
-F 0,0,0
-C 0,0,0
+F 1,1,1
+C 1,1,1
 
 111111111111111111111
 1010000000000000W0001

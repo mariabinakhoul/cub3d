@@ -6,7 +6,7 @@
 /*   By: raldanda <raldanda@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/05 18:23:34 by raldanda          #+#    #+#             */
-/*   Updated: 2025/07/09 22:57:20 by raldanda         ###   ########.fr       */
+/*   Updated: 2025/07/13 20:44:07 by raldanda         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,30 +52,37 @@ void flood_fill(char **map, int x, int y)
 		exit_error("Map not closed (invalid space)\n");
 }
 
+// void print_map(char **map)
+// {
+// 	int i = 0;
+
+// 	while(map[i])
+// 	{
+// 		printf("%s", map[i]);
+// 		i++;
+// 	}
+// }
+
 int	check_map_character(char **map)
 {
-	int	pcount;
-	int	i;
-	int	j;
+	int	pcount = 0;
 
-	pcount = 0;
-	i = 0;
-	while (map[i])
+	for (int i = 0; map[i]; i++)
 	{
-		j = 0;
-		while (map[i][j])
+		for (int j = 0; map[i][j] && map[i][j] != '\n'; j++)
 		{
-			if (map[i][j] != '0' && map[i][j] != '1' &&
-				map[i][j] != 'N' && map[i][j] != 'S' &&
-				map[i][j] != 'E' && map[i][j] != 'W' &&
-				map[i][j] != ' ' && map[i][j] != ' ')
+			char c = map[i][j];
+
+			/* allow exactly: 0 1 N S E W and space */
+			if (c != '0' && c != '1' &&
+				c != 'N' && c != 'S' &&
+				c != 'E' && c != 'W' &&
+				c != ' ')
 				exit_error("Invalid character in map");
-			if (map[i][j] == 'N' || map[i][j] == 'S' ||
-				map[i][j] == 'E' || map[i][j] == 'W')
+
+			if (c == 'N' || c == 'S' || c == 'E' || c == 'W')
 				pcount++;
-			j++;
 		}
-		i++;
 	}
 	if (pcount != 1)
 		exit_error("Map must have exactly one player start");
