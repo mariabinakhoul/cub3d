@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   map_validation.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: raldanda <raldanda@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mabi-nak <mabi-nak@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/05 18:23:34 by raldanda          #+#    #+#             */
-/*   Updated: 2025/07/13 20:44:07 by raldanda         ###   ########.fr       */
+/*   Updated: 2025/07/15 11:21:52 by mabi-nak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "cub.h"
+#include "../../includes/cub.h"
 
 char **dup_map(char **map)
 {

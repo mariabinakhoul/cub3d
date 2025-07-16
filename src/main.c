@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: raldanda <raldanda@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mabi-nak <mabi-nak@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/04 23:10:17 by raldanda          #+#    #+#             */
-/*   Updated: 2025/07/13 14:20:43 by raldanda         ###   ########.fr       */
+/*   Updated: 2025/07/15 12:57:37 by mabi-nak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,8 @@ int	main(int argc, char **argv)
 	if (!parse_cub_file(clean, &data))
 		return (free(clean),
 			write(2, "Error\nFailed to parse .cub file\n", 32), 1);
+	if (!init_all(&data, clean))
+		exit_error("Initialization failed");
 	free(clean);
 	write(1, "Success\n", 8);
 	return (0);

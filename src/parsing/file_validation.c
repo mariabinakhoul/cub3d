@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   file_validation.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: raldanda <raldanda@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mabi-nak <mabi-nak@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/01 12:11:28 by raldanda          #+#    #+#             */
-/*   Updated: 2025/07/13 16:22:21 by raldanda         ###   ########.fr       */
+/*   Updated: 2025/07/15 11:21:35 by mabi-nak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "cub.h"
+#include "../../includes/cub.h"
 
 int	is_cub_file(char *filename)
 {

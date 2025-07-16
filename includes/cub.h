@@ -3,20 +3,23 @@
 /*                                                        :::      ::::::::   */
 /*   cub.h                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: raldanda <raldanda@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mabi-nak <mabi-nak@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/01 11:33:38 by raldanda          #+#    #+#             */
-/*   Updated: 2025/07/13 20:51:27 by raldanda         ###   ########.fr       */
+/*   Updated: 2025/07/15 13:00:43 by mabi-nak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef CUB3D_H
-#define CUB3D_H
+#ifndef CUB_H
+# define CUB_H
+
+# define WIDTH 1024
+# define HEIGHT 768
 
 # include "libft.h"
-#include "get_next_line.h"
-#include "color.h"
-# include "mlx.h"
+# include "get_next_line.h"
+# include "color.h"
+# include "../minilibx-linux/mlx.h"
 # include <errno.h>
 # include <fcntl.h>
 # include <math.h>
@@ -32,17 +35,29 @@
 
 typedef struct s_texture
 {
-	char *no;
-	char *so;
-	char *we;
-	char *ea;
+	char	*no;
+	char	*so;
+	char	*we;
+	char	*ea;
+	void	*no_img;
+	void	*so_img;
+	void	*we_img;
+	void	*ea_img;
+	int		no_width;
+	int		no_height;
+	int		so_width;
+	int		so_height;
+	int		we_width;
+	int		we_height;
+	int		ea_width;
+	int		ea_height;
 }	t_texture;
 
 typedef struct s_color
 {
-	int r;
-	int g;
-	int b;
+	int	r;
+	int	g;
+	int	b;
 }	t_color;
 
 typedef struct s_map_data
@@ -50,8 +65,26 @@ typedef struct s_map_data
 	t_texture	textures;
 	t_color		floor;
 	t_color		ceiling;
-	char		 **map_lines;
+	char		**map_lines;
+	void		*mlx;
+	void		*win;
+	double		player_x;
+	double		player_y;
+	double		dir_x;
+	double		dir_y;
+	double		plane_x;
+	double		plane_y;
 }	t_map_data;
+
+typedef struct s_keys
+{
+	int	w;
+	int	s;
+	int	d;
+	int	a;
+	int	left;
+	int	right;
+}	t_keys;
 
 int		main(int argc, char **argv);
 int		is_cub_file(char *filename);
@@ -75,5 +108,6 @@ int		count_words(char *str, char *charset);
 char	*word_dup(char *str, char *charset);
 char	**ft_split_charset(char *str, char *charset);
 void	exit_error(char *msg);
+int		init_all(t_map_data *data, char *filename);
 
 #endif

@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   read_map.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: raldanda <raldanda@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mabi-nak <mabi-nak@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/04 18:03:08 by raldanda          #+#    #+#             */
-/*   Updated: 2025/07/13 20:38:13 by raldanda         ###   ########.fr       */
+/*   Updated: 2025/07/15 11:21:48 by mabi-nak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "cub.h"
+#include "../../includes/cub.h"
 
 int	parse_line(char *line, t_map_data *data)
 {

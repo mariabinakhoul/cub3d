@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   utils_1.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: raldanda <raldanda@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mabi-nak <mabi-nak@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/09 23:44:14 by raldanda          #+#    #+#             */
-/*   Updated: 2025/07/10 04:12:25 by raldanda         ###   ########.fr       */
+/*   Updated: 2025/07/15 11:21:40 by mabi-nak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "cub.h"
+#include "../../includes/cub.h"
 
 void	exit_error(char *msg)
 {
