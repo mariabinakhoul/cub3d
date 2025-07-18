@@ -25,8 +25,9 @@ SRC_FILES   = main.c \
 			  parsing/utils_0.c\
 			  parsing/utils_1.c\
               getnextline/get_next_line.c \
-              getnextline/get_next_line_utils.c
-			  init/init_all.c init_utils.c
+              getnextline/get_next_line_utils.c\
+			  init/init_all.c init/mlx_hook.c init/player_mov.c\
+			  utils.c
 
 SRC         = $(addprefix $(SRC_DIR)/, $(SRC_FILES))
 OBJ         = $(addprefix $(OBJ_DIR)/, $(SRC_FILES:.c=.o))

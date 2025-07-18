@@ -6,11 +6,11 @@
 /*   By: mabi-nak <mabi-nak@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/04 23:10:17 by raldanda          #+#    #+#             */
-/*   Updated: 2025/07/15 12:57:37 by mabi-nak         ###   ########.fr       */
+/*   Updated: 2025/07/18 10:03:05 by mabi-nak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "cub.h"
+#include "../includes/cub.h"
 
 int	main(int argc, char **argv)
 {
