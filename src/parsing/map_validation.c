@@ -3,38 +3,40 @@
 /*                                                        :::      ::::::::   */
 /*   map_validation.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mabi-nak <mabi-nak@student.42.fr>          +#+  +:+       +#+        */
+/*   By: raldanda <raldanda@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/05 18:23:34 by raldanda          #+#    #+#             */
-/*   Updated: 2025/07/15 11:21:52 by mabi-nak         ###   ########.fr       */
+/*   Updated: 2025/07/22 00:06:10 by raldanda         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/cub.h"
 
-char **dup_map(char **map)
+char	**dup_map(char **map)
 {
-	int i = 0;
-	while (map[i])
-		i++;
-	char **copy = malloc(sizeof(char *) * (i + 1));
+	int		len;
+	int		i;
+	char	**copy;
+
+	len = 0;
+	while (map[len])
+		len++;
+	copy = malloc(sizeof(char *) * (len + 1));
 	if (!copy)
 		exit_error("Memory error\n");
-	for (i = 0; map[i]; i++)
+	i = 0;
+	while (i < len)
+	{
 		copy[i] = ft_strdup(map[i]);
+		if (!copy[i])
+			exit_error("Memory error\n");
+		i++;
+	}
 	copy[i] = NULL;
 	return (copy);
 }
 
-void	free_map(char **map)
-{
-	int i = 0;
-	while (map && map[i])
-		free(map[i++]);
-	free(map);
-}
-
-void flood_fill(char **map, int x, int y)
+void	flood_fill(char **map, int x, int y)
 {
 	if (x < 0 || y < 0 || !map[y] || x >= (int)ft_strlen(map[y]))
 		exit_error("Map not closed (out of bounds)\n");
@@ -52,50 +54,60 @@ void flood_fill(char **map, int x, int y)
 		exit_error("Map not closed (invalid space)\n");
 }
 
-// void print_map(char **map)
-// {
-// 	int i = 0;
-
-// 	while(map[i])
-// 	{
-// 		printf("%s", map[i]);
-// 		i++;
-// 	}
-// }
+int	is_allowed(char c)
+{
+	if (c == '0' || c == '1' || c == 'N' || c == 'S'
+		|| c == 'E' || c == 'W' || c == ' ')
+		return (1);
+	return (0);
+}
 
 int	check_map_character(char **map)
 {
-	int	pcount = 0;
+	int	i;
+	int	j;
+	int	pcount;
 
-	for (int i = 0; map[i]; i++)
+	i = 0;
+	pcount = 0;
+	while (map[i])
 	{
-		for (int j = 0; map[i][j] && map[i][j] != '\n'; j++)
+		j = 0;
+		while (map[i][j] && map[i][j] != '\n')
 		{
-			char c = map[i][j];
-
-			/* allow exactly: 0 1 N S E W and space */
-			if (c != '0' && c != '1' &&
-				c != 'N' && c != 'S' &&
-				c != 'E' && c != 'W' &&
-				c != ' ')
-				exit_error("Invalid character in map");
-
-			if (c == 'N' || c == 'S' || c == 'E' || c == 'W')
+			if (!is_allowed(map[i][j]))
+				exit_error("Invalid character in map\n");
+			if (is_player(map[i][j]))
 				pcount++;
+			j++;
 		}
+		i++;
 	}
 	if (pcount != 1)
-		exit_error("Map must have exactly one player start");
+		exit_error("Map must have exactly one player start\n");
 	return (1);
 }
 
-void validate_map(t_map_data *data)
+void	validate_map(t_map_data *data)
 {
+	int		i;
+	int		j;
+	char	**copy;
+
 	check_map_character(data->map_lines);
-	char **copy = dup_map(data->map_lines);
-	for (int i = 0; copy[i]; i++)
-		for (int j = 0; copy[i][j]; j++)
+	copy = dup_map(data->map_lines);
+	i = 0;
+	while (copy[i])
+	{
+		j = 0;
+		while (copy[i][j])
+		{
 			if (ft_strchr("NSEW", copy[i][j]))
+			//printf("HERE\n");
 				flood_fill(copy, j, i);
+			j++;
+		}
+		i++;
+	}
 	free_map(copy);
 }

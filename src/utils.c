@@ -3,17 +3,17 @@
 /*                                                        :::      ::::::::   */
 /*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mabi-nak <mabi-nak@student.42.fr>          +#+  +:+       +#+        */
+/*   By: raldanda <raldanda@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/18 10:03:11 by mabi-nak          #+#    #+#             */
-/*   Updated: 2025/07/18 10:03:31 by mabi-nak         ###   ########.fr       */
+/*   Updated: 2025/07/20 23:32:13 by raldanda         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/cub.h"
 
-void	clear_image(t_map_data *data)
-{
-	ft_memset(data->img.addr, 0,
-		WIDTH * HEIGHT * (data->img.bit_per_pixel / 8));
-}
+// void	clear_image(t_map_data *data)
+// {
+// 	ft_memset(data->img.addr, 0,
+// 		WIDTH * HEIGHT * (data->img.bit_per_pixel / 8));
+// }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   read_map.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mabi-nak <mabi-nak@student.42.fr>          +#+  +:+       +#+        */
+/*   By: raldanda <raldanda@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/04 18:03:08 by raldanda          #+#    #+#             */
-/*   Updated: 2025/07/15 11:21:48 by mabi-nak         ###   ########.fr       */
+/*   Updated: 2025/07/22 00:07:03 by raldanda         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,63 +49,61 @@ int	parse_cub_file(char *filename, t_map_data *data)
 	int		id;
 	int		code;
 	char	*trimmed;
+	int		j;
+	int		in_map;	
 
-	/* ───── sanity check on the file name ───── */
 	if (!is_cub_file(filename))
 		return (0);
-
-	/* ───── read the whole file into memory ───── */
-	lines = malloc(sizeof(char *) * 10000);			/* ample room */
+	lines = malloc(sizeof(char *) * 10000);
 	if (!lines)
 		exit_error("Memory error\n");
-
 	if ((fd = open(filename, O_RDONLY)) < 0)
 		return (free(lines), 0);
-
 	idx = 0;
 	while ((line = get_next_line(fd)))
 	{
-		lines[idx++] = ft_strdup(line);				/* keep \n for reference */
+		lines[idx++] = ft_strdup(line);
 		free(line);
 	}
 	lines[idx] = NULL;
 	close(fd);
-
-	/* ───── stage 1: parse the six header identifiers ───── */
-	id  = 0;
+	id = 0;
 	idx = 0;
 	while (lines[idx] && id < 6)
 	{
-		if (is_space_str(lines[idx]))				/* ignore empty / all-space lines */
-		{	idx++; continue; }
-
-		/* feed a *trimmed* copy to the element parser */
+		if (is_space_str(lines[idx]))
+		{
+			idx++;
+			continue;
+		}
 		trimmed = ft_strtrim(lines[idx], " \t\r\n");
 		if (!trimmed)
 			return (free(lines), 0);
-
-		code = parse_line(trimmed, data);			/* user-supplied helper */
+		code = parse_line(trimmed, data);
 		free(trimmed);
-
-		/* In most student projects:  
-		   - 1  → valid texture path  
-		   - 2  → valid colour (F or C)             */
-		if (code == 1 || code == 2)					/* success */
+		if (code == 1 || code == 2)
 			id++;
-		else										/* anything else is fatal */
+		else
 			return (free(lines), 0);
 		idx++;
 	}
-	if (id < 6)										/* not enough identifiers */
+	if (id < 6)
 		return (free(lines), 0);
-
-	/* ───── stage 2: find the first map row ───── */
 	while (lines[idx] && is_space_str(lines[idx]))
 		idx++;
-	if (!lines[idx])								/* header but no map */
+	if (!lines[idx])
 		return (free(lines), 0);
-
-	data->map_lines = &lines[idx];					/* hand over ownership */
-	validate_map(data);							/* exits or sets its own error flag */
+	data->map_lines = &lines[idx];
+	j = idx;
+	in_map = 1;
+	while (lines[j])
+	{
+		if (is_space_str(lines[j]))
+			in_map = 0;
+		else if (!in_map)
+			return (free(lines), 0);
+		j++;
+	}
+	validate_map(data);
 	return (1);
 }

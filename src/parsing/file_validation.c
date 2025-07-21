@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   file_validation.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mabi-nak <mabi-nak@student.42.fr>          +#+  +:+       +#+        */
+/*   By: raldanda <raldanda@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/01 12:11:28 by raldanda          #+#    #+#             */
-/*   Updated: 2025/07/15 11:21:35 by mabi-nak         ###   ########.fr       */
+/*   Updated: 2025/07/22 00:05:19 by raldanda         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,6 @@ int	is_cub_file(char *filename)
 	int	len;
 
 	len = ft_strlen(filename);
-	// drop any trailing '/' chars
 	while (len > 0 && filename[len - 1] == '/')
 		len--;
 	if (len < 4)
@@ -27,39 +26,41 @@ int	is_cub_file(char *filename)
 
 int	check_xpm_path(char *path)
 {
-	int len = ft_strlen(path);
+	int	len;
+
+	len = ft_strlen(path);
 	if (len < 4)
 		return (0);
 	return (!ft_strncmp(path + len - 4, ".xpm", 4));
 }
 
-// Parse "R,G,B" into t_color (trims newline/spaces)
 int	parse_color(char *line, t_color *color)
 {
 	char	*trim;
-	char	**split;
+	char	**sp;
 	int		i;
 
 	trim = ft_strtrim(line, " ");
 	if (!trim)
 		return (0);
-	split = ft_split(trim, ',');
+	sp = ft_split(trim, ',');
 	free(trim);
-	if (!split)
+	if (!sp)
 		return (0);
-	for (i = 0; split[i]; i++)
+	i = 0;
+	while (sp[i])
 	{
-		if (i >= 3 || !ft_isdigit_str(split[i]))
-			return (free_split(split), 0);
-		((int *)color)[i] = ft_atoi(split[i]);
+		if (i >= 3 || !ft_isdigit_str(sp[i]))
+			return (free_split(sp), 0);
+		((int *)color)[i] = ft_atoi(sp[i]);
 		if (((int *)color)[i] < 0 || ((int *)color)[i] > 255)
-			return (free_split(split), 0);
+			return (free_split(sp), 0);
+		i++;
 	}
-	free_split(split);
-	return (i == 3);
+	return (free_split(sp), i == 3);
 }
 
-// Sets texture path ensuring .xpm and no duplicates
+//set textures and no dup
 int	set_texture(char **dst, char *value)
 {
 	char	*clean;

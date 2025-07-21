@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils_1.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mabi-nak <mabi-nak@student.42.fr>          +#+  +:+       +#+        */
+/*   By: raldanda <raldanda@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/09 23:44:14 by raldanda          #+#    #+#             */
-/*   Updated: 2025/07/15 11:21:40 by mabi-nak         ###   ########.fr       */
+/*   Updated: 2025/07/22 00:11:34 by raldanda         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,9 @@ void	exit_error(char *msg)
 
 int	ft_isdigit_str(char *str)
 {
-	int i = 0;
+	int	i;
+
+	i = 0;
 	if (!str)
 		return (0);
 	while (str[i])
@@ -32,7 +34,9 @@ int	ft_isdigit_str(char *str)
 
 void	free_split(char **arr)
 {
-	int i = 0;
+	int	i;
+
+	i = 0;
 	while (arr && arr[i])
 		free(arr[i++]);
 	free(arr);
@@ -40,16 +44,20 @@ void	free_split(char **arr)
 
 int	is_space_str(char *str)
 {
-	int i = 0;
+	int	i;
+
+	i = 0;
 	while (str[i])
+	{
 		if (str[i] != ' ' && str[i] != '\t' && str[i] != '\n')
 			return (0);
 		else
 			i++;
+	}
 	return (1);
 }
 
-char **ft_split_ws(char *line)
+char	**ft_split_ws(char *line)
 {
-	return ft_split_charset(line, " \t");
+	return (ft_split_charset(line, " \t"));
 }

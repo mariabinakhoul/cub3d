@@ -21,7 +21,8 @@ MLX         = $(MLX_DIR)/libmlx.a
 SRC_FILES   = main.c \
               parsing/file_validation.c \
               parsing/read_map.c \
-              parsing/map_validation.c \
+              parsing/map_validation.c\
+			  parsing/xy_position.c\
 			  parsing/utils_0.c\
 			  parsing/utils_1.c\
               getnextline/get_next_line.c \

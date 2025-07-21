@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils_0.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mabi-nak <mabi-nak@student.42.fr>          +#+  +:+       +#+        */
+/*   By: raldanda <raldanda@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/08 17:43:00 by raldanda          #+#    #+#             */
-/*   Updated: 2025/07/15 11:21:44 by mabi-nak         ###   ########.fr       */
+/*   Updated: 2025/07/22 00:09:28 by raldanda         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,8 +14,9 @@
 
 int	is_in_charset(char c, char *charset)
 {
-	int	i = 0;
+	int	i;
 
+	i = 0;
 	while (charset[i])
 	{
 		if (charset[i] == c)
@@ -27,8 +28,9 @@ int	is_in_charset(char c, char *charset)
 
 int	count_words(char *str, char *charset)
 {
-	int	count = 0;
+	int	count;
 
+	count = 0;
 	while (*str)
 	{
 		while (*str && is_in_charset(*str, charset))
@@ -46,9 +48,10 @@ int	count_words(char *str, char *charset)
 // Allocates and copies a word
 char	*word_dup(char *str, char *charset)
 {
-	int		len = 0;
+	int		len;
 	char	*word;
 
+	len = 0;
 	while (str[len] && !is_in_charset(str[len], charset))
 		len++;
 	word = malloc(sizeof(char) * (len + 1));
@@ -64,9 +67,10 @@ char	*word_dup(char *str, char *charset)
 // Splits the string by the characters in charset
 char	**ft_split_charset(char *str, char *charset)
 {
-	int		i = 0;
+	int		i;
 	char	**result;
 
+	i = 0;
 	if (!str)
 		return (NULL);
 	result = malloc(sizeof(char *) * (count_words(str, charset) + 1));
@@ -87,4 +91,14 @@ char	**ft_split_charset(char *str, char *charset)
 	}
 	result[i] = NULL;
 	return (result);
+}
+
+void	free_map(char **map)
+{
+	int	i;
+
+	i = 0;
+	while (map && map[i])
+		free(map[i++]);
+	free(map);
 }
