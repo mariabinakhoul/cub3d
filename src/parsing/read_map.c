@@ -6,11 +6,34 @@
 /*   By: raldanda <raldanda@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/04 18:03:08 by raldanda          #+#    #+#             */
-/*   Updated: 2025/07/22 00:07:03 by raldanda         ###   ########.fr       */
+/*   Updated: 2025/08/05 22:14:59 by raldanda         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../includes/cub.h"
+#include "../../includes/cub3d.h"
+
+int	handle_directive(char *key, char *val, t_map_data *data)
+{
+	int	ret;
+
+	if (!ft_strcmp(key, "NO"))
+		ret = set_texture(&data->textures.no, val);
+	else if (!ft_strcmp(key, "SO"))
+		ret = set_texture(&data->textures.so, val);
+	else if (!ft_strcmp(key, "WE"))
+		ret = set_texture(&data->textures.we, val);
+	else if (!ft_strcmp(key, "EA"))
+		ret = set_texture(&data->textures.ea, val);
+	else if (!ft_strcmp(key, "F"))
+		ret = parse_color(val, &data->floor);
+	else if (!ft_strcmp(key, "C"))
+		ret = parse_color(val, &data->ceiling);
+	else
+		return (-1);
+	if (ret)
+		return (1);
+	return (0);
+}
 
 int	parse_line(char *line, t_map_data *data)
 {
@@ -18,92 +41,83 @@ int	parse_line(char *line, t_map_data *data)
 	int		ret;
 
 	sp = ft_split_ws(line);
-	if (!sp || !sp[0])
-		return (free_split(sp), 1);
-	if (!sp[1])
-		return (free_split(sp), 2);
-	ret = 1;
-	if (!ft_strcmp(sp[0], "NO"))
-		ret = set_texture(&data->textures.no, sp[1]);
-	else if (!ft_strcmp(sp[0], "SO"))
-		ret = set_texture(&data->textures.so, sp[1]);
-	else if (!ft_strcmp(sp[0], "WE"))
-		ret = set_texture(&data->textures.we, sp[1]);
-	else if (!ft_strcmp(sp[0], "EA"))
-		ret = set_texture(&data->textures.ea, sp[1]);
-	else if (!ft_strcmp(sp[0], "F"))
-		ret = parse_color(sp[1], &data->floor);
-	else if (!ft_strcmp(sp[0], "C"))
-		ret = parse_color(sp[1], &data->ceiling);
-	else
-		return (free_split(sp), 2);
-	return (free_split(sp), ret ? 1 : 0);
+	if (!sp || !sp[0] || !sp[1])
+	{
+		free_split(sp);
+		return (0);
+	}
+	ret = handle_directive(sp[0], sp[1], data);
+	free_split(sp);
+	if (ret == 1)
+		return (2);
+	return (0);
 }
 
-int	parse_cub_file(char *filename, t_map_data *data)
+char	**read_lines(char *filename)
 {
-	char	*line;
-	char	**lines;
 	int		fd;
-	int		idx;
-	int		id;
-	int		code;
-	char	*trimmed;
-	int		j;
-	int		in_map;	
+	int		i;
+	char	*tmp;
+	char	**lines;
 
-	if (!is_cub_file(filename))
-		return (0);
 	lines = malloc(sizeof(char *) * 10000);
 	if (!lines)
 		exit_error("Memory error\n");
-	if ((fd = open(filename, O_RDONLY)) < 0)
-		return (free(lines), 0);
-	idx = 0;
-	while ((line = get_next_line(fd)))
+	fd = open(filename, O_RDONLY);
+	if (fd < 0)
 	{
-		lines[idx++] = ft_strdup(line);
-		free(line);
+		free(lines);
+		return (NULL);
 	}
-	lines[idx] = NULL;
+	i = 0;
+	tmp = get_next_line(fd);
+	while (tmp)
+	{
+		lines[i++] = ft_strdup(tmp);
+		free(tmp);
+		tmp = get_next_line(fd);
+	}
+	lines[i] = NULL;
 	close(fd);
-	id = 0;
-	idx = 0;
-	while (lines[idx] && id < 6)
-	{
-		if (is_space_str(lines[idx]))
-		{
-			idx++;
-			continue;
-		}
-		trimmed = ft_strtrim(lines[idx], " \t\r\n");
-		if (!trimmed)
-			return (free(lines), 0);
-		code = parse_line(trimmed, data);
-		free(trimmed);
-		if (code == 1 || code == 2)
-			id++;
-		else
-			return (free(lines), 0);
-		idx++;
-	}
-	if (id < 6)
-		return (free(lines), 0);
-	while (lines[idx] && is_space_str(lines[idx]))
-		idx++;
-	if (!lines[idx])
-		return (free(lines), 0);
-	data->map_lines = &lines[idx];
-	j = idx;
+	return (lines);
+}
+
+int	valid_map_block(char **l, int start)
+{
+	int	in_map;
+	int	j;
+
 	in_map = 1;
-	while (lines[j])
+	j = start;
+	while (l[j])
 	{
-		if (is_space_str(lines[j]))
+		if (is_space_str(l[j]))
 			in_map = 0;
 		else if (!in_map)
-			return (free(lines), 0);
+			return (0);
 		j++;
 	}
+	return (1);
+}
+
+int	parse_cub_file(char *file, t_map_data *data)
+{
+	char	**lines;
+	int		i;
+
+	if (!is_cub_file(file))
+		return (0);
+	lines = read_lines(file);
+	if (!lines)
+		return (0);
+	i = 0;
+	if (!consume_identifiers(lines, data, &i))
+		return (free(lines), 0);
+	while (lines[i] && is_space_str(lines[i]))
+		i++;
+	if (!lines[i] || !valid_map_block(lines, i))
+		return (free(lines), 0);
+	data->map_lines = &lines[i];
 	validate_map(data);
 	return (1);
 }

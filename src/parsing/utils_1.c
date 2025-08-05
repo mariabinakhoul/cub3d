@@ -6,11 +6,11 @@
 /*   By: raldanda <raldanda@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/09 23:44:14 by raldanda          #+#    #+#             */
-/*   Updated: 2025/07/22 00:11:34 by raldanda         ###   ########.fr       */
+/*   Updated: 2025/07/26 15:35:44 by raldanda         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../includes/cub.h"
+#include "../../includes/cub3d.h"
 
 void	exit_error(char *msg)
 {

@@ -6,11 +6,11 @@
 /*   By: raldanda <raldanda@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/21 13:27:18 by raldanda          #+#    #+#             */
-/*   Updated: 2025/07/22 00:14:37 by raldanda         ###   ########.fr       */
+/*   Updated: 2025/07/26 15:35:48 by raldanda         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../includes/cub.h"
+#include "../../includes/cub3d.h"
 
 int	is_player(char c)
 {

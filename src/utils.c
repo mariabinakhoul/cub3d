@@ -6,11 +6,11 @@
 /*   By: raldanda <raldanda@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/18 10:03:11 by mabi-nak          #+#    #+#             */
-/*   Updated: 2025/07/20 23:32:13 by raldanda         ###   ########.fr       */
+/*   Updated: 2025/07/26 15:14:11 by raldanda         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../includes/cub.h"
+#include "../includes/cub3d.h"
 
 // void	clear_image(t_map_data *data)
 // {

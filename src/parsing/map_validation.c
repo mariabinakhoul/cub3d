@@ -6,11 +6,11 @@
 /*   By: raldanda <raldanda@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/05 18:23:34 by raldanda          #+#    #+#             */
-/*   Updated: 2025/07/22 00:06:10 by raldanda         ###   ########.fr       */
+/*   Updated: 2025/07/27 03:01:01 by raldanda         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../includes/cub.h"
+#include "../../includes/cub3d.h"
 
 char	**dup_map(char **map)
 {
@@ -54,14 +54,6 @@ void	flood_fill(char **map, int x, int y)
 		exit_error("Map not closed (invalid space)\n");
 }
 
-int	is_allowed(char c)
-{
-	if (c == '0' || c == '1' || c == 'N' || c == 'S'
-		|| c == 'E' || c == 'W' || c == ' ')
-		return (1);
-	return (0);
-}
-
 int	check_map_character(char **map)
 {
 	int	i;
@@ -88,26 +80,32 @@ int	check_map_character(char **map)
 	return (1);
 }
 
+void	flood_every_open(char **map)
+{
+	int	y;
+	int	x;
+
+	y = 0;
+	while (map[y])
+	{
+		x = 0;
+		while (map[y][x])
+		{
+			if (is_open_tile(map[y][x]))
+				flood_fill(map, x, y);
+			x++;
+		}
+		y++;
+	}
+}
+
+// copy = dup_map(data->map_lines);
 void	validate_map(t_map_data *data)
 {
-	int		i;
-	int		j;
 	char	**copy;
 
 	check_map_character(data->map_lines);
-	copy = dup_map(data->map_lines);
-	i = 0;
-	while (copy[i])
-	{
-		j = 0;
-		while (copy[i][j])
-		{
-			if (ft_strchr("NSEW", copy[i][j]))
-			//printf("HERE\n");
-				flood_fill(copy, j, i);
-			j++;
-		}
-		i++;
-	}
+	copy = fill_map_holes(data->map_lines);
+	flood_every_open(copy);
 	free_map(copy);
 }

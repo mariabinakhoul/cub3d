@@ -6,11 +6,11 @@
 /*   By: raldanda <raldanda@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/08 17:43:00 by raldanda          #+#    #+#             */
-/*   Updated: 2025/07/22 00:09:28 by raldanda         ###   ########.fr       */
+/*   Updated: 2025/07/26 15:35:42 by raldanda         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../includes/cub.h"
+#include "../../includes/cub3d.h"
 
 int	is_in_charset(char c, char *charset)
 {

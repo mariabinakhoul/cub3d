@@ -6,11 +6,11 @@
 /*   By: raldanda <raldanda@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/23 00:40:29 by raldanda          #+#    #+#             */
-/*   Updated: 2025/07/23 00:40:46 by raldanda         ###   ########.fr       */
+/*   Updated: 2025/08/05 22:23:47 by raldanda         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../includes/cub.h"
+#include "../../includes/cub3d.h"
 
 int	is_cub_file(char *filename)
 {

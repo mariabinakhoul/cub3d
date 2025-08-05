@@ -6,11 +6,11 @@
 /*   By: raldanda <raldanda@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/17 13:40:58 by mabi-nak          #+#    #+#             */
-/*   Updated: 2025/07/20 23:31:51 by raldanda         ###   ########.fr       */
+/*   Updated: 2025/07/26 15:15:19 by raldanda         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../includes/cub.h"
+#include "../../includes/cub3d.h"
 
 // int	key_press(int keycode, t_map_data *data)
 // {

@@ -6,11 +6,11 @@
 /*   By: raldanda <raldanda@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/18 09:40:38 by mabi-nak          #+#    #+#             */
-/*   Updated: 2025/07/20 23:32:02 by raldanda         ###   ########.fr       */
+/*   Updated: 2025/07/26 15:15:24 by raldanda         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../includes/cub.h"
+#include "../../includes/cub3d.h"
 
 // void	move_player(t_map_data *data)
 // {
