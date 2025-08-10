@@ -6,20 +6,20 @@
 /*   By: raldanda <raldanda@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/08 17:43:00 by raldanda          #+#    #+#             */
-/*   Updated: 2025/07/26 15:35:42 by raldanda         ###   ########.fr       */
+/*   Updated: 2025/08/10 16:12:51 by raldanda         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/cub3d.h"
 
-int	is_in_charset(char c, char *charset)
+int	is_in_charset(char c, char *str)
 {
 	int	i;
 
 	i = 0;
-	while (charset[i])
+	while (str[i])
 	{
-		if (charset[i] == c)
+		if (str[i] == c)
 			return (1);
 		i++;
 	}

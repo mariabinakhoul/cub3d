@@ -6,7 +6,7 @@
 /*   By: raldanda <raldanda@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/23 00:45:54 by raldanda          #+#    #+#             */
-/*   Updated: 2025/08/05 22:16:03 by raldanda         ###   ########.fr       */
+/*   Updated: 2025/08/10 18:53:43 by raldanda         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,9 +28,12 @@ int	main(int argc, char **argv)
 		clean[i--] = '\0';
 	ft_bzero(&data, sizeof(data));
 	if (!parse_cub_file(clean, &data))
+	{
 		return (free(clean),
 			write(2, "Error\nFailed to parse .cub file\n", 32), 1);
+	}
 	free(clean);
 	write(1, "Success\n", 8);
+	free_data(&data);
 	return (0);
 }

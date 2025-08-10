@@ -6,7 +6,7 @@
 /*   By: raldanda <raldanda@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/05 18:23:34 by raldanda          #+#    #+#             */
-/*   Updated: 2025/07/27 03:01:01 by raldanda         ###   ########.fr       */
+/*   Updated: 2025/08/10 16:15:57 by raldanda         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,24 +36,6 @@ char	**dup_map(char **map)
 	return (copy);
 }
 
-void	flood_fill(char **map, int x, int y)
-{
-	if (x < 0 || y < 0 || !map[y] || x >= (int)ft_strlen(map[y]))
-		exit_error("Map not closed (out of bounds)\n");
-	if (map[y][x] == '1' || map[y][x] == 'x')
-		return ;
-	if (map[y][x] == '0' || ft_strchr("NSEW", map[y][x]))
-	{
-		map[y][x] = 'x';
-		flood_fill(map, x + 1, y);
-		flood_fill(map, x - 1, y);
-		flood_fill(map, x, y + 1);
-		flood_fill(map, x, y - 1);
-	}
-	else
-		exit_error("Map not closed (invalid space)\n");
-}
-
 int	check_map_character(char **map)
 {
 	int	i;
@@ -78,6 +60,25 @@ int	check_map_character(char **map)
 	if (pcount != 1)
 		exit_error("Map must have exactly one player start\n");
 	return (1);
+}
+
+
+void	flood_fill(char **map, int x, int y)
+{
+	if (x < 0 || y < 0 || !map[y] || x >= (int)ft_strlen(map[y]))
+		exit_error("Map not closed (out of bounds)\n");
+	if (map[y][x] == '1' || map[y][x] == 'x')
+		return ;
+	if (map[y][x] == '0' || ft_strchr("NSEW", map[y][x]))
+	{
+		map[y][x] = 'x';
+		flood_fill(map, x + 1, y);
+		flood_fill(map, x - 1, y);
+		flood_fill(map, x, y + 1);
+		flood_fill(map, x, y - 1);
+	}
+	else
+		exit_error("Map not closed (invalid space)\n");
 }
 
 void	flood_every_open(char **map)

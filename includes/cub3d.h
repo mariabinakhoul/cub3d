@@ -6,7 +6,7 @@
 /*   By: raldanda <raldanda@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/26 15:14:29 by raldanda          #+#    #+#             */
-/*   Updated: 2025/07/27 02:02:10 by raldanda         ###   ########.fr       */
+/*   Updated: 2025/08/10 18:03:16 by raldanda         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,9 @@
 # include <math.h>
 # include <stdbool.h>
 # include <stdio.h>
+# include <stdint.h>
+# include <fcntl.h>
+# include <limits.h>
 # include <stdlib.h>
 # include <string.h>
 # include <sys/stat.h>
@@ -82,7 +85,7 @@ void	flood_fill(char **map, int x, int y);
 int		is_allowed(char c);
 
 /* utils.c */
-int		is_in_charset(char c, char *charset);
+int		is_in_charset(char c, char *str);
 int		count_words(char *str, char *charset);
 char	*word_dup(char *str, char *charset);
 char	**ft_split_charset(char *str, char *charset);
@@ -108,5 +111,9 @@ int		valid_map_block(char **l, int start);
 //test
 char	*pad_line(char *src, int width);
 char	**fill_map_holes(char **map);
+
+
+void free_data(t_map_data *data);
+void free_string_array(char **lines);
 
 #endif

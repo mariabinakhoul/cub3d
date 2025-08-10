@@ -6,7 +6,7 @@
 /*   By: raldanda <raldanda@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/23 00:40:29 by raldanda          #+#    #+#             */
-/*   Updated: 2025/08/05 22:23:47 by raldanda         ###   ########.fr       */
+/*   Updated: 2025/08/10 17:29:11 by raldanda         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,6 +72,7 @@ int	set_texture(char **dst, char *value)
 		return (0);
 	if (!check_xpm_path(clean))
 		return (free(clean), 0);
-	*dst = clean;
+	*dst = ft_strdup(clean);
+	free(clean);
 	return (1);
 }
