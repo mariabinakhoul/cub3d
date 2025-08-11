@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   xy_position.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: raldanda <raldanda@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mabi-nak <mabi-nak@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/21 13:27:18 by raldanda          #+#    #+#             */
-/*   Updated: 2025/07/26 15:35:48 by raldanda         ###   ########.fr       */
+/*   Updated: 2025/08/11 11:40:27 by mabi-nak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,9 +21,9 @@ void	save_pos(t_map_data *d, int x, int y, int *found)
 {
 	if (*found)
 		exit_error("multiple player spawns\n");
-	d->x = ft_itoa(x);
-	d->y = ft_itoa(y);
-	if (!d->x || !d->y)
+	d->start_x = x;
+	d->start_y = y;
+	if (!d->start_x || !d->start_y)
 		exit_error("malloc error\n");
 	*found = 1;
 }
