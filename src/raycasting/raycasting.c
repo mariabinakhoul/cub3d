@@ -6,11 +6,54 @@
 /*   By: mabi-nak <mabi-nak@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/11 12:56:49 by mabi-nak          #+#    #+#             */
-/*   Updated: 2025/08/11 13:22:31 by mabi-nak         ###   ########.fr       */
+/*   Updated: 2025/08/11 13:59:22 by mabi-nak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/cub3d.h"
+
+
+int	load_textures(t_map_data *data)
+{
+	data->textures.no_img = mlx_xpm_file_to_image(data->mlx, data->textures.no,
+		&data->textures.no_width, &data->textures.no_height);
+	data->textures.so_img = mlx_xpm_file_to_image(data->mlx, data->textures.so,
+		&data->textures.so_width, &data->textures.so_height);
+	data->textures.we_img = mlx_xpm_file_to_image(data->mlx, data->textures.we,
+		&data->textures.we_width, &data->textures.we_height);
+	data->textures.ea_img = mlx_xpm_file_to_image(data->mlx, data->textures.ea,
+		&data->textures.ea_width, &data->textures.ea_height);
+
+	if (!data->textures.no_img || !data->textures.so_img
+		|| !data->textures.we_img || !data->textures.ea_img)
+		return (1); // Error loading textures
+
+	return (0);
+}
+
+// Get pixel color from a texture image
+static int	get_tex_color(t_map_data *data, void *img, int width, int height,
+							int tex_x, int tex_y)
+{
+	char	*addr;
+	int		bpp;
+	int		line_len;
+	int		endian;
+
+	addr = mlx_get_data_addr(img, &bpp, &line_len, &endian);
+	if (!addr)
+		return (0); // fallback color black
+
+	// Clamp tex_x and tex_y within texture dimensions
+	if (tex_x < 0) tex_x = 0;
+	if (tex_x >= width) tex_x = width - 1;
+	if (tex_y < 0) tex_y = 0;
+	if (tex_y >= height) tex_y = height - 1;
+
+	char *pixel = addr + (tex_y * line_len + tex_x * (bpp / 8));
+	return (*(int *)pixel);
+}
+
 
 static void	draw_vertical_line(t_map_data *data)
 {
@@ -27,12 +70,10 @@ static void	draw_vertical_line(t_map_data *data)
 
 void	raycast_and_draw(t_map_data *data)
 {
-	int	x;
-
-	x = 0;
-	while (x < WIDTH)
+	data->current_line.x = 0;
+	while (data->current_line.x < WIDTH)
 	{
-		double cameraX = 2 * x / (double)WIDTH - 1;
+		double cameraX = 2 * data->current_line.x / (double)WIDTH - 1;
 		double rayDirX = data->dir_x + data->plane_x *cameraX;
 		double rayDirY = data->dir_y + data->plane_y * cameraX;
 
@@ -96,6 +137,17 @@ void	raycast_and_draw(t_map_data *data)
 			perpWallDist = (sideDistY - deltaDistY);
 		int lineHeight = (int)(HEIGHT / perpWallDist);
 
-		
+		data->current_line.draw_start = -lineHeight / 2 + HEIGHT / 2;
+		if (data->current_line.draw_start < 0)
+			data->current_line.draw_start = 0;
+		data->current_line.draw_end = lineHeight / 2 + HEIGHT / 2;
+		if (data->current_line.draw_end >= HEIGHT)
+			data->current_line.draw_end = HEIGHT - 1;
+		if (side == 0)
+			data->current_line.color = 0xFF0000;
+		else
+			data->current_line.color = 0x990000;
+		draw_vertical_line(data);
+		data->current_line.x++;
 	}
 }
