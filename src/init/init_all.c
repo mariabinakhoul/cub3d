@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   init_all.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mabi-nak <mabi-nak@student.42.fr>          +#+  +:+       +#+        */
+/*   By: raldanda <raldanda@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/11 11:01:31 by mabi-nak          #+#    #+#             */
-/*   Updated: 2025/08/12 15:03:50 by mabi-nak         ###   ########.fr       */
+/*   Updated: 2025/08/12 21:40:27 by raldanda         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ int	init_textures(t_map_data *data)
 
 
 	t = &data->textures;
-		FILE *f = fopen(t->no, "r");
+		// FILE *f = fopen(t->no, "r");
 	t->no_img = mlx_xpm_file_to_image(data->mlx, t->no,
 			&t->no_width, &t->no_height);
 	if (!t->no_img)

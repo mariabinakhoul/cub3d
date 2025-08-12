@@ -23,6 +23,7 @@ SRC_FILES   = main.c \
 			  parsing/read_map.c \
 			  parsing/map_validation.c\
 			  parsing/xy_position.c\
+			  parsing/map_utils.c\
 			  parsing/utils_0.c\
 			  parsing/utils_1.c\
 			  parsing/utils_2.c\

@@ -1,0 +1,7 @@
+NO /texture/north.xpm
+SO /texture/south.xpm
+WE /texture/west.xpm 
+EA /texture/east.xpm
+
+F 20,20,20
+C 200,200,200

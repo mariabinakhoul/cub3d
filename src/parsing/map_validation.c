@@ -6,7 +6,7 @@
 /*   By: raldanda <raldanda@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/05 18:23:34 by raldanda          #+#    #+#             */
-/*   Updated: 2025/08/10 16:15:57 by raldanda         ###   ########.fr       */
+/*   Updated: 2025/08/12 22:51:21 by raldanda         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,33 +35,6 @@ char	**dup_map(char **map)
 	copy[i] = NULL;
 	return (copy);
 }
-
-int	check_map_character(char **map)
-{
-	int	i;
-	int	j;
-	int	pcount;
-
-	i = 0;
-	pcount = 0;
-	while (map[i])
-	{
-		j = 0;
-		while (map[i][j] && map[i][j] != '\n')
-		{
-			if (!is_allowed(map[i][j]))
-				exit_error("Invalid character in map\n");
-			if (is_player(map[i][j]))
-				pcount++;
-			j++;
-		}
-		i++;
-	}
-	if (pcount != 1)
-		exit_error("Map must have exactly one player start\n");
-	return (1);
-}
-
 
 void	flood_fill(char **map, int x, int y)
 {

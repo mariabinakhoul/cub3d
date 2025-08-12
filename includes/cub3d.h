@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cub3d.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mabi-nak <mabi-nak@student.42.fr>          +#+  +:+       +#+        */
+/*   By: raldanda <raldanda@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/26 15:14:29 by raldanda          #+#    #+#             */
-/*   Updated: 2025/08/12 12:12:25 by mabi-nak         ###   ########.fr       */
+/*   Updated: 2025/08/12 22:54:12 by raldanda         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -181,6 +181,8 @@ int		valid_map_block(char **l, int start);
 //test
 char	*pad_line(char *src, int width);
 char	**fill_map_holes(char **map);
+void	free_lines_partial(char **lines, size_t count);
+int	parse_map_section(char **lines, t_map_data *data, int i);
 
 
 void free_data(t_map_data *data);

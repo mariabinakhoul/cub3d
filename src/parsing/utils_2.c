@@ -6,7 +6,7 @@
 /*   By: raldanda <raldanda@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/26 14:47:48 by raldanda          #+#    #+#             */
-/*   Updated: 2025/08/05 22:12:54 by raldanda         ###   ########.fr       */
+/*   Updated: 2025/08/12 22:45:52 by raldanda         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,4 +51,37 @@ int	consume_identifiers(char **l, t_map_data *d, int *idx)
 		(*idx)++;
 	}
 	return (id_cnt == 6);
+}
+
+void	free_string_array(char **lines)
+{
+	size_t	i;
+
+	if (!lines)
+		return ;
+	i = 0;
+	while (lines[i])
+	{
+		free(lines[i]);
+		i++;
+	}
+	free(lines);
+}
+
+int	valid_map_block(char **l, int start)
+{
+	int	in_map;
+	int	j;
+
+	in_map = 1;
+	j = start;
+	while (l[j])
+	{
+		if (is_space_str(l[j]))
+			in_map = 0;
+		else if (!in_map)
+			return (0);
+		j++;
+	}
+	return (1);
 }

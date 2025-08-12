@@ -3,37 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   read_map.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mabi-nak <mabi-nak@student.42.fr>          +#+  +:+       +#+        */
+/*   By: raldanda <raldanda@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/04 18:03:08 by raldanda          #+#    #+#             */
-/*   Updated: 2025/08/12 11:59:25 by mabi-nak         ###   ########.fr       */
+/*   Updated: 2025/08/13 00:00:50 by raldanda         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/cub3d.h"
-
-int	handle_directive(char *key, char *val, t_map_data *data)
-{
-	int	ret;
-
-	if (!ft_strcmp(key, "NO"))
-		ret = set_texture(&data->textures.no, val);
-	else if (!ft_strcmp(key, "SO"))
-		ret = set_texture(&data->textures.so, val);
-	else if (!ft_strcmp(key, "WE"))
-		ret = set_texture(&data->textures.we, val);
-	else if (!ft_strcmp(key, "EA"))
-		ret = set_texture(&data->textures.ea, val);
-	else if (!ft_strcmp(key, "F"))
-		ret = parse_color(val, &data->floor);
-	else if (!ft_strcmp(key, "C"))
-		ret = parse_color(val, &data->ceiling);
-	else
-		return (-1);
-	if (ret)
-		return (1);
-	return (0);
-}
 
 int	parse_line(char *line, t_map_data *data)
 {
@@ -51,36 +28,6 @@ int	parse_line(char *line, t_map_data *data)
 	if (ret == 1)
 		return (2);
 	return (0);
-}
-
-int	valid_map_block(char **l, int start)
-{
-	int	in_map;
-	int	j;
-
-	in_map = 1;
-	j = start;
-	while (l[j])
-	{
-		if (is_space_str(l[j]))
-			in_map = 0;
-		else if (!in_map)
-			return (0);
-		j++;
-	}
-	return (1);
-}
-
-void free_data(t_map_data *data)
-{
-	if (data->textures.no)
-		free(data->textures.no);
-	if (data->textures.so)
-		free(data->textures.so);
-	if (data->textures.we)
-		free(data->textures.we);
-	if (data->textures.ea)
-		free(data->textures.ea);
 }
 
 int	parse_cub_file(char *file, t_map_data *data)
@@ -102,86 +49,8 @@ int	parse_cub_file(char *file, t_map_data *data)
 	}
 	while (lines[i] && is_space_str(lines[i]))
 		i++;
-	if (!lines[i] || !valid_map_block(lines, i))
-	{
-		free_string_array(lines);
-		free_data(data);
-		return (free(lines), 0);
-	}
-	data->map_lines = &lines[i];
-	validate_map(data);
-	// free_string_array(lines);
-	return (1);
+	return (parse_map_section(lines, data, i));
 }
-
-static void	free_lines_partial(char **lines, size_t count)
-{
-	size_t	i;
-
-	if (!lines)
-		return ;
-	i = 0;
-	while (i < count)
-	{
-		free(lines[i]);
-		i++;
-	}
-	free(lines);
-}
-
-// char **read_lines(char *filename)
-// {
-//     int     fd;
-
-// 	fd = open(filename, O_RDONLY);
-//     if (fd < 0)
-// 		return NULL;
-//     size_t  cap = 64;
-//     size_t  n = 0;
-//     char  **lines = malloc(cap * sizeof *lines);
-//     if (!lines)
-// 	{ 
-// 		close(fd); return NULL;
-// 	}
-//     char *tmp;
-//     while ((tmp = get_next_line(fd)) != NULL)
-// 	{
-//         if (n + 1 >= cap)
-// 		{
-//             size_t new_cap = cap * 2;
-//             if (new_cap <= cap || new_cap > SIZE_MAX / sizeof *lines)
-// 			{
-//                 free(tmp);
-//                 close(fd);
-//                 free_lines_partial(lines, n);
-//                 return NULL;
-//             }
-//             char **new_lines = realloc(lines, new_cap * sizeof *new_lines);
-//             if (!new_lines)
-// 			{
-//                 free(tmp);
-//                 close(fd);
-//                 free_lines_partial(lines, n);
-//                 return NULL;
-//             }
-//             lines = new_lines;
-//             cap = new_cap;
-//         }
-
-//         char *dup = ft_strdup(tmp);
-//         free(tmp);
-//         if (!dup)
-// 		{
-//             close(fd);
-//             free_lines_partial(lines, n);
-//             return NULL;
-//         }
-//         lines[n++] = dup;
-//     }
-//     close(fd);
-//     lines[n] = NULL;
-//     return lines;
-// }
 
 static int	append_take(char ***lines, size_t *cap, size_t *n, char *tmp)
 {
@@ -205,14 +74,31 @@ static int	append_take(char ***lines, size_t *cap, size_t *n, char *tmp)
 	return (1);
 }
 
+static int	read_lines_fill(int fd, char ***lines, size_t *cap, size_t *n)
+{
+	char	*tmp;
+
+	while (1)
+	{
+		tmp = get_next_line(fd);
+		if (!tmp)
+			break ;
+		if (!append_take(lines, cap, n, tmp))
+			return (0);
+	}
+	return (1);
+}
+
 char	**read_lines(char *filename)
 {
-	int			fd = open(filename, O_RDONLY);
-	size_t		cap = 64;
-	size_t		n = 0;
+	int			fd;
+	size_t		cap;
+	size_t		n;
 	char		**lines;
-	char		*tmp;
 
+	fd = open(filename, O_RDONLY);
+	cap = 64;
+	n = 0;
 	if (fd < 0)
 		return (NULL);
 	lines = malloc(cap * sizeof(*lines));
@@ -221,9 +107,7 @@ char	**read_lines(char *filename)
 		close(fd);
 		return (NULL);
 	}
-	while ((tmp = get_next_line(fd)) && append_take(&lines, &cap, &n, tmp))
-		;
-	if (tmp)
+	if (!read_lines_fill(fd, &lines, &cap, &n))
 	{
 		close(fd);
 		free_lines_partial(lines, n);
@@ -232,20 +116,4 @@ char	**read_lines(char *filename)
 	close(fd);
 	lines[n] = NULL;
 	return (lines);
-}
-
-
-void	free_string_array(char **lines)
-{
-	size_t	i;
-
-	if (!lines)
-		return ;
-	i = 0;
-	while (lines[i])
-	{
-		free(lines[i]);
-		i++;
-	}
-	free(lines);
 }
