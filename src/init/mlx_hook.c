@@ -6,7 +6,7 @@
 /*   By: mabi-nak <mabi-nak@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/17 13:40:58 by mabi-nak          #+#    #+#             */
-/*   Updated: 2025/08/11 11:03:28 by mabi-nak         ###   ########.fr       */
+/*   Updated: 2025/08/12 12:29:20 by mabi-nak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,7 +74,7 @@ int	close_window(t_map_data *data)
 void	draw_scene(t_map_data *data)
 {
 	clear_image(data);
-	// raycast_and_draw(data);  // Loop over screen columns and draw walls
+	raycast_and_draw(data);  // Loop over screen columns and draw walls
 }
 
 int	render_frame(t_map_data *data)

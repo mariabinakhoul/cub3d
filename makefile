@@ -19,18 +19,19 @@ MLX         = $(MLX_DIR)/libmlx.a
 
 # Sources
 SRC_FILES   = main.c \
-              parsing/file_validation.c \
-              parsing/read_map.c \
-              parsing/map_validation.c\
+			  parsing/file_validation.c \
+			  parsing/read_map.c \
+			  parsing/map_validation.c\
 			  parsing/xy_position.c\
 			  parsing/utils_0.c\
 			  parsing/utils_1.c\
 			  parsing/utils_2.c\
 			  parsing/test.c\
-              getnextline/get_next_line.c \
-              getnextline/get_next_line_utils.c\
+			  getnextline/get_next_line.c \
+			  getnextline/get_next_line_utils.c\
 			  init/init_all.c init/mlx_hook.c init/player_mov.c\
-			  utils.c
+			  utils.c\
+			  raycasting/raycasting.c
 
 SRC         = $(addprefix $(SRC_DIR)/, $(SRC_FILES))
 OBJ         = $(addprefix $(OBJ_DIR)/, $(SRC_FILES:.c=.o))

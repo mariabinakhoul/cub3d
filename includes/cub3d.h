@@ -6,7 +6,7 @@
 /*   By: mabi-nak <mabi-nak@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/26 15:14:29 by raldanda          #+#    #+#             */
-/*   Updated: 2025/08/11 13:06:25 by mabi-nak         ###   ########.fr       */
+/*   Updated: 2025/08/12 12:12:25 by mabi-nak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,13 +42,6 @@
 # include "../minilibx-linux/mlx.h"
 
 /* ──────────────────────────────── structs ─────────────────────────────── */
-typedef struct s_texture
-{
-	char	*no;
-	char	*so;
-	char	*we;
-	char	*ea;
-}	t_texture;
 
 typedef struct s_color
 {
@@ -198,6 +191,10 @@ int	key_release(int keycode, t_map_data *data);
 int	close_window(t_map_data *data);
 void	draw_scene(t_map_data *data);
 int	render_frame(t_map_data *data);
-
+void	raycast_and_draw(t_map_data *data);
+void	clear_image(t_map_data *data);
+void	move_player(t_map_data *data);
+void	rotate_player(t_map_data *data);
+int	init_all(t_map_data *data, char *filename);
 
 #endif

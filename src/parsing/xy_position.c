@@ -6,7 +6,7 @@
 /*   By: mabi-nak <mabi-nak@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/21 13:27:18 by raldanda          #+#    #+#             */
-/*   Updated: 2025/08/11 11:40:27 by mabi-nak         ###   ########.fr       */
+/*   Updated: 2025/08/12 14:37:06 by mabi-nak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,9 @@ void	save_pos(t_map_data *d, int x, int y, int *found)
 		exit_error("multiple player spawns\n");
 	d->start_x = x;
 	d->start_y = y;
+	d->start_dir = d->map_lines[y][x];
+		// printf("init_player: start_x=%d, start_y=%d, start_dir= %d\n", d->start_x, d->start_y, d->start_dir);
+
 	if (!d->start_x || !d->start_y)
 		exit_error("malloc error\n");
 	*found = 1;

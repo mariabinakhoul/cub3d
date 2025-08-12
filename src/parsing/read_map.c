@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   read_map.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: raldanda <raldanda@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mabi-nak <mabi-nak@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/04 18:03:08 by raldanda          #+#    #+#             */
-/*   Updated: 2025/08/10 22:32:44 by raldanda         ###   ########.fr       */
+/*   Updated: 2025/08/12 11:59:25 by mabi-nak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -110,7 +110,7 @@ int	parse_cub_file(char *file, t_map_data *data)
 	}
 	data->map_lines = &lines[i];
 	validate_map(data);
-	free_string_array(lines);
+	// free_string_array(lines);
 	return (1);
 }
 

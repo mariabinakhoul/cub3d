@@ -6,7 +6,7 @@
 /*   By: mabi-nak <mabi-nak@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/11 11:01:31 by mabi-nak          #+#    #+#             */
-/*   Updated: 2025/08/11 11:57:59 by mabi-nak         ###   ########.fr       */
+/*   Updated: 2025/08/12 15:03:50 by mabi-nak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,9 +17,20 @@ int	init_textures(t_map_data *data)
 {
 	t_texture	*t;
 
+
+
 	t = &data->textures;
+		FILE *f = fopen(t->no, "r");
 	t->no_img = mlx_xpm_file_to_image(data->mlx, t->no,
 			&t->no_width, &t->no_height);
+	if (!t->no_img)
+    {
+        printf("Failed to load NO texture from %s\n", t->no);
+    }
+    else
+    {
+        printf("Loaded NO texture: %dx%d\n", t->no_width, t->no_height);
+    }
 	t->so_img = mlx_xpm_file_to_image(data->mlx, t->so,
 			&t->so_width, &t->so_height);
 	t->we_img = mlx_xpm_file_to_image(data->mlx, t->we,
@@ -57,6 +68,8 @@ void	init_player(t_map_data *data)
 {
 	data->player_x = data->start_x + 0.5;
 	data->player_y = data->start_y + 0.5;
+	printf("init_player: start_x=%d, start_y=%d, startstart_dir=%c\n", data->start_x, data->start_y, data->start_dir);
+	printf("init_player: player_x=%.2f, player_y=%.2f\n", data->player_x, data->player_y);
 	if (data->start_dir == 'N')
 	{
 		data->dir_x = 0;
@@ -89,17 +102,27 @@ void	init_player(t_map_data *data)
 
 int	init_all(t_map_data *data, char *filename)
 {
+	(void) filename;
 	data->mlx = mlx_init();
 	if (!data->mlx)
 		return (0);
 	data->win = mlx_new_window(data->mlx, WIDTH, HEIGHT, "cub3D");
 	if (!data->win)
-		return (0);
+	{
+        printf("Failed to create window\n");
+        return (0);
+    }
 	if (!init_textures(data))
-		return (0);
+	 {
+        printf("Failed to load textures\n");
+        return (0);
+    }
 	init_keys(data);
 	if (!init_image(data))
-		return (0);
+	{
+        printf("Failed to create image\n");
+        return (0);
+    }
 	init_player(data);
 	mlx_hook(data->win, 2, 1L << 0, key_press, data);
 	mlx_hook(data->win, 3, 1L << 1, key_release, data);
