@@ -6,7 +6,7 @@
 /*   By: mabi-nak <mabi-nak@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/11 12:56:49 by mabi-nak          #+#    #+#             */
-/*   Updated: 2025/08/13 11:14:39 by mabi-nak         ###   ########.fr       */
+/*   Updated: 2025/08/13 11:16:31 by mabi-nak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,7 @@ void	clear_image(t_map_data *data)
 	// Floor color: brown
 	for (y = HEIGHT / 2; y < HEIGHT; y++)
 		for (x = 0; x < WIDTH; x++)
-			my_mlx_pixel_put(&data->img, x, y, 0x8B4513);
+			my_mlx_pixel_put(&data->img, x, y, 0xE6A9B8);
 }
 
 void	raycast_and_draw(t_map_data *data)
