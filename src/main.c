@@ -6,7 +6,7 @@
 /*   By: mabi-nak <mabi-nak@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/23 00:45:54 by raldanda          #+#    #+#             */
-/*   Updated: 2025/08/12 13:28:19 by mabi-nak         ###   ########.fr       */
+/*   Updated: 2025/08/13 11:45:13 by mabi-nak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -123,19 +123,13 @@ int	main(int argc, char **argv)
 
 	if (argc != 2)
 		return (write(2, "Usage: ./cub3D <map.cub>\n", 25), 1);
-
 	clean = ft_strdup(argv[1]);
 	if (!clean)
 		exit_error("Memory error");
-
-	// Remove trailing slashes if present
 	i = ft_strlen(clean) - 1;
 	while (i >= 0 && clean[i] == '/')
 		clean[i--] = '\0';
-
 	ft_bzero(&data, sizeof(data));
-
-	// Parse the .cub file and store map info in data
 	if (!parse_cub_file(clean, &data))
 	{
 		free(clean);
@@ -143,25 +137,13 @@ int	main(int argc, char **argv)
 		return (1);
 	}
 	free(clean);
-set_player_pos(&data);
-
-	// Initialize MLX, window, images, textures, keys, player, hooks
+	set_player_pos(&data);
 	if (!init_all(&data, argv[1]))
 		exit_error("Initialization failed");
-
-	// Clear screen (sky and floor) before rendering
 	clear_image(&data);
-
-	// Render first frame (calls raycasting inside render_frame)
 	render_frame(&data);
-
-	// Display the rendered image in the window
 	mlx_put_image_to_window(data.mlx, data.win, data.img.img, 0, 0);
-
-	// Enter MLX event loop (will call render_frame continuously)
 	mlx_loop(data.mlx);
-
-	// Cleanup (usually won't reach here unless you break the loop)
 	free_data(&data);
 	return (0);
 }
