@@ -6,7 +6,7 @@
 /*   By: mabi-nak <mabi-nak@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/11 12:56:49 by mabi-nak          #+#    #+#             */
-/*   Updated: 2025/08/13 11:16:31 by mabi-nak         ###   ########.fr       */
+/*   Updated: 2025/08/13 11:34:20 by mabi-nak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,19 +20,22 @@ static int	get_tex_color(t_map_data *data, void *img, int width, int height,
 	int		bpp;
 	int		line_len;
 	int		endian;
-	(void) data;
+	char	*pixel;
 
+	(void) data;
 	addr = mlx_get_data_addr(img, &bpp, &line_len, &endian);
 	if (!addr)
-		return (0); // fallback color black
+		return (0);
 
-	// Clamp tex_x and tex_y within texture dimensions
-	if (tex_x < 0) tex_x = 0;
-	if (tex_x >= width) tex_x = width - 1;
-	if (tex_y < 0) tex_y = 0;
-	if (tex_y >= height) tex_y = height - 1;
-
-	char *pixel = addr + (tex_y * line_len + tex_x * (bpp / 8));
+	if (tex_x < 0)
+		tex_x = 0;
+	if (tex_x >= width)
+		tex_x = width - 1;
+	if (tex_y < 0)
+		tex_y = 0;
+	if (tex_y >= height)
+		tex_y = height - 1;
+	pixel = addr + (tex_y * line_len + tex_x * (bpp / 8));
 	return (*(int *)pixel);
 }
 
@@ -41,23 +44,51 @@ void	my_mlx_pixel_put(t_image *img, int x, int y, int color)
 	char	*dst;
 
 	dst = img->addr + (y * img->line_length + x * (img->bit_per_pixel / 8));
-	*(unsigned int*)dst = color;
+	*(unsigned int *)dst = color;
 }
 
 void	clear_image(t_map_data *data)
 {
-	int x, y;
+	int	x;
+	int	y;
 
-	// Sky color: light blue
 	for (y = 0; y < HEIGHT / 2; y++)
 		for (x = 0; x < WIDTH; x++)
 			my_mlx_pixel_put(&data->img, x, y, 0x87CEEB);
-
-	// Floor color: brown
 	for (y = HEIGHT / 2; y < HEIGHT; y++)
 		for (x = 0; x < WIDTH; x++)
 			my_mlx_pixel_put(&data->img, x, y, 0xE6A9B8);
 }
+
+void	select_texture(t_map_data *data, int side, double rayDirX, double rayDirY,
+					 void **tex_img, int *tex_width, int *tex_height)
+{
+	if (side == 0 && rayDirX > 0)
+	{
+		*tex_img = data->textures.we_img;
+		*tex_width = data->textures.we_width;
+		*tex_height = data->textures.we_height;
+	}
+	else if (side == 0 && rayDirX < 0)
+	{
+		*tex_img = data->textures.ea_img;
+		*tex_width = data->textures.ea_width;
+		*tex_height = data->textures.ea_height;
+	}
+	else if (side == 1 && rayDirY > 0)
+	{
+		*tex_img = data->textures.no_img;
+		*tex_width = data->textures.no_width;
+		*tex_height = data->textures.no_height;
+	}
+	else
+	{
+		*tex_img = data->textures.so_img;
+		*tex_width = data->textures.so_width;
+		*tex_height = data->textures.so_height;
+	}
+}
+
 
 void	raycast_and_draw(t_map_data *data)
 {
@@ -153,30 +184,8 @@ void	raycast_and_draw(t_map_data *data)
 		int		tex_width;
 		int		tex_height;
 
-		if (side == 0 && rayDirX > 0)
-		{
-			tex_img = data->textures.we_img;
-			tex_width = data->textures.we_width;
-			tex_height = data->textures.we_height;
-		}
-		else if (side == 0 && rayDirX < 0)
-		{
-			tex_img = data->textures.ea_img;
-			tex_width = data->textures.ea_width;
-			tex_height = data->textures.ea_height;
-		}
-		else if (side == 1 && rayDirY > 0)
-		{
-			tex_img = data->textures.no_img;
-			tex_width = data->textures.no_width;
-			tex_height = data->textures.no_height;
-		}
-		else
-		{
-			tex_img = data->textures.so_img;
-			tex_width = data->textures.so_width;
-			tex_height = data->textures.so_height;
-		}
+		select_texture(data, side, rayDirX, rayDirY, &tex_img, &tex_width, &tex_height);
+
 
 		double wallX;
 		if (side == 0)
