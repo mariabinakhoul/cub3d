@@ -6,7 +6,7 @@
 /*   By: mabi-nak <mabi-nak@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/11 12:56:49 by mabi-nak          #+#    #+#             */
-/*   Updated: 2025/08/13 11:34:20 by mabi-nak         ###   ########.fr       */
+/*   Updated: 2025/08/13 11:37:56 by mabi-nak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,6 +89,35 @@ void	select_texture(t_map_data *data, int side, double rayDirX, double rayDirY,
 	}
 }
 
+void	init_step_sideDist(t_map_data *data, double rayDirX, double rayDirY,
+							int mapX, int mapY,
+							int *stepX, int *stepY,
+							double *sideDistX, double *sideDistY,
+							double deltaDistX, double deltaDistY)
+{
+	if (rayDirX < 0)
+	{
+		*stepX = -1;
+		*sideDistX = (data->player_x - mapX) * deltaDistX;
+	}
+	else
+	{
+		*stepX = 1;
+		*sideDistX = (mapX + 1.0 - data->player_x) * deltaDistX;
+	}
+
+	if (rayDirY < 0)
+	{
+		*stepY = -1;
+		*sideDistY = (data->player_y - mapY) * deltaDistY;
+	}
+	else
+	{
+		*stepY = 1;
+		*sideDistY = (mapY + 1.0 - data->player_y) * deltaDistY;
+	}
+}
+
 
 void	raycast_and_draw(t_map_data *data)
 {
@@ -115,31 +144,11 @@ void	raycast_and_draw(t_map_data *data)
 		int hit = 0;
 		int side;
 
-		if (rayDirX < 0)
-		{
-			stepX = -1;
-			sideDistX = (data->player_x - mapX) * deltaDistX;
-		}
-		else
-		{
-			stepX = 1;
-			sideDistX = (mapX + 1.0 - data->player_x) * deltaDistX;
-		}
-		if (rayDirY < 0)
-		{
-			stepY = -1;
-			sideDistY = (data->player_y - mapY) * deltaDistY;
-		}
-		else
-		{
-			stepY = 1;
-			sideDistY = (mapY + 1.0 - data->player_y) * deltaDistY;
-		}
-
+		init_step_sideDist(data, rayDirX, rayDirY, mapX, mapY,
+                   &stepX, &stepY, &sideDistX, &sideDistY,
+                   deltaDistX, deltaDistY);
 		while (hit == 0)
 		{
-			// printf("Before step: sideDistX=%.3f, sideDistY=%.3f, mapX=%d, mapY=%d\n", sideDistX, sideDistY, mapX, mapY);
-
 			if (sideDistX < sideDistY)
 			{
 				sideDistX += deltaDistX;
@@ -152,8 +161,6 @@ void	raycast_and_draw(t_map_data *data)
 				mapY += stepY;
 				side = 1;
 			}
-
-			// Safety check to prevent out of bounds
 			if (mapY < 0 || mapY >= HEIGHT ||
 				mapX < 0 || mapX >= (int)ft_strlen(data->map_lines[mapY]))
 			{
@@ -162,7 +169,6 @@ void	raycast_and_draw(t_map_data *data)
 			}
 			if (data->map_lines[mapY][mapX] == '1')
 				hit = 1;
-			// printf("Checking map[%d][%d] = %c\n", mapY, mapX, data->map_lines[mapY][mapX]);
 		}
 		if (side == 0)
 			perpWallDist = (sideDistX - deltaDistX);
@@ -170,7 +176,6 @@ void	raycast_and_draw(t_map_data *data)
 			perpWallDist = (sideDistY - deltaDistY);
 		if (perpWallDist < 0.0001)
 			perpWallDist = 0.0001;
-			
 		int lineHeight = (int)(HEIGHT / perpWallDist);
 		data->current_line.draw_start = -lineHeight / 2 + HEIGHT / 2;
 		if (data->current_line.draw_start < 0)
@@ -178,15 +183,10 @@ void	raycast_and_draw(t_map_data *data)
 		data->current_line.draw_end = lineHeight / 2 + HEIGHT / 2;
 		if (data->current_line.draw_end >= HEIGHT)
 			data->current_line.draw_end = HEIGHT - 1;
-
-		
 		void	*tex_img;
 		int		tex_width;
 		int		tex_height;
-
 		select_texture(data, side, rayDirX, rayDirY, &tex_img, &tex_width, &tex_height);
-
-
 		double wallX;
 		if (side == 0)
 			wallX = data->player_y + perpWallDist * rayDirY;
@@ -201,7 +201,6 @@ void	raycast_and_draw(t_map_data *data)
 		double step = 1.0 * tex_height / lineHeight;
 		double texPos = (data->current_line.draw_start - HEIGHT / 2 + lineHeight / 2) * step;
 
-		// Draw textured vertical stripe
 		int y = data->current_line.draw_start;
 		while (y < data->current_line.draw_end)
 		{
