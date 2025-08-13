@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   init_all.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: raldanda <raldanda@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mabi-nak <mabi-nak@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/11 11:01:31 by mabi-nak          #+#    #+#             */
-/*   Updated: 2025/08/12 21:40:27 by raldanda         ###   ########.fr       */
+/*   Updated: 2025/08/13 11:13:51 by mabi-nak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,20 +17,9 @@ int	init_textures(t_map_data *data)
 {
 	t_texture	*t;
 
-
-
 	t = &data->textures;
-		// FILE *f = fopen(t->no, "r");
 	t->no_img = mlx_xpm_file_to_image(data->mlx, t->no,
 			&t->no_width, &t->no_height);
-	if (!t->no_img)
-    {
-        printf("Failed to load NO texture from %s\n", t->no);
-    }
-    else
-    {
-        printf("Loaded NO texture: %dx%d\n", t->no_width, t->no_height);
-    }
 	t->so_img = mlx_xpm_file_to_image(data->mlx, t->so,
 			&t->so_width, &t->so_height);
 	t->we_img = mlx_xpm_file_to_image(data->mlx, t->we,

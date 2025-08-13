@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cub3d.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: raldanda <raldanda@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mabi-nak <mabi-nak@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/26 15:14:29 by raldanda          #+#    #+#             */
-/*   Updated: 2025/08/12 22:54:12 by raldanda         ###   ########.fr       */
+/*   Updated: 2025/08/13 11:07:17 by mabi-nak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@
 # define WIDTH 1024
 # define HEIGHT 768
 # define MOVE_SPEED 0.02
-# define ROT_SPEED 0.05
+# define ROT_SPEED 0.01
 
 /* ─────────────────────────── project-specific headers ─────────────────── */
 # include "color.h"
@@ -89,17 +89,6 @@ typedef struct s_keys
 	int	right;
 }	t_keys;
 
-
-// typedef struct s_map_data
-// {
-// 	t_texture	textures;
-// 	t_color		floor;
-// 	t_color		ceiling;
-// 	char		**map_lines;
-// 	char		*x;
-// 	char		*y;
-// }	t_map_data;
-
 typedef struct s_draw_line
 {
 	int	x;
@@ -126,6 +115,9 @@ typedef struct s_map_data
 	double		dir_y;
 	double		plane_x;
 	double		plane_y;
+	// void		*current_tex_img;
+	// int			current_tex_width;
+	// int			current_tex_height;
 	t_keys		keys;
 	t_image		img;
 	t_draw_line	current_line;

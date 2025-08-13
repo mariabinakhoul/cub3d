@@ -5,8 +5,8 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: mabi-nak <mabi-nak@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/07/17 13:40:58 by mabi-nak          #+#    #+#             */
-/*   Updated: 2025/08/12 12:29:20 by mabi-nak         ###   ########.fr       */
+/*   Created: 2025/08/13 11:13:22 by mabi-nak          #+#    #+#             */
+/*   Updated: 2025/08/13 11:13:25 by mabi-nak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,36 +14,38 @@
 
 int	key_press(int keycode, t_map_data *data)
 {
-	if (keycode == 13)
+	if (keycode == 119)
 		data->keys.w = 1;
-	else if (keycode == 1)
+	else if (keycode == 115)
 		data->keys.s = 1;
-	else if (keycode == 0)
+	else if (keycode == 97)
 		data->keys.a = 1;
-	else if (keycode == 2)
+	else if (keycode == 100)
 		data->keys.d = 1;
-	else if (keycode == 123)
+	else if (keycode == 65361)
 		data->keys.left = 1;
-	else if (keycode == 124)
+	else if (keycode == 65363)
 		data->keys.right = 1;
-	else if (keycode == 53)
+	else if (keycode == 65307)
 		exit(0);
+	printf("Pressed keycode=%d Left=%d Right=%d\n", keycode, data->keys.left, data->keys.right);
+
 	return (0);
 }
 
 int	key_release(int keycode, t_map_data *data)
 {
-	if (keycode == 13)
+	if (keycode == 119)
 		data->keys.w = 0;
-	else if (keycode == 1)
+	else if (keycode == 115)
 		data->keys.s = 0;
-	else if (keycode == 0)
+	else if (keycode == 97)
 		data->keys.a = 0;
-	else if (keycode == 2)
+	else if (keycode == 100)
 		data->keys.d = 0;
-	else if (keycode == 123)
+	else if (keycode == 65361)
 		data->keys.left = 0;
-	else if (keycode == 124)
+	else if (keycode == 65363)
 		data->keys.right = 0;
 	return (0);
 }
