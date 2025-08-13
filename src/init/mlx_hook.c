@@ -6,7 +6,7 @@
 /*   By: mabi-nak <mabi-nak@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/13 11:13:22 by mabi-nak          #+#    #+#             */
-/*   Updated: 2025/08/13 11:13:25 by mabi-nak         ###   ########.fr       */
+/*   Updated: 2025/08/13 11:43:14 by mabi-nak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,8 +28,6 @@ int	key_press(int keycode, t_map_data *data)
 		data->keys.right = 1;
 	else if (keycode == 65307)
 		exit(0);
-	printf("Pressed keycode=%d Left=%d Right=%d\n", keycode, data->keys.left, data->keys.right);
-
 	return (0);
 }
 
@@ -57,26 +55,10 @@ int	close_window(t_map_data *data)
 	return (0);
 }
 
-// static void	move_player(t_map_data *data)
-// {
-// 	if (data->keys.w)
-// 		move_forwad(data);
-// 	if (data->keys.s)
-// 		move_backward(data);
-// 	if (data->keys.a)
-// 		strafe_left(data);
-// 	if (data->keys.d)
-// 		strafe_right(data);
-// 	if (data->keys.left)
-// 		rotate_left(data);
-// 	if (data->keys.right)
-// 		rotate_right(data);
-// }
-
 void	draw_scene(t_map_data *data)
 {
 	clear_image(data);
-	raycast_and_draw(data);  // Loop over screen columns and draw walls
+	raycast_and_draw(data);
 }
 
 int	render_frame(t_map_data *data)

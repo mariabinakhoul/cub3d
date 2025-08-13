@@ -6,7 +6,7 @@
 /*   By: mabi-nak <mabi-nak@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/11 11:01:31 by mabi-nak          #+#    #+#             */
-/*   Updated: 2025/08/13 11:13:51 by mabi-nak         ###   ########.fr       */
+/*   Updated: 2025/08/13 11:40:51 by mabi-nak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,8 +57,6 @@ void	init_player(t_map_data *data)
 {
 	data->player_x = data->start_x + 0.5;
 	data->player_y = data->start_y + 0.5;
-	printf("init_player: start_x=%d, start_y=%d, startstart_dir=%c\n", data->start_x, data->start_y, data->start_dir);
-	printf("init_player: player_x=%.2f, player_y=%.2f\n", data->player_x, data->player_y);
 	if (data->start_dir == 'N')
 	{
 		data->dir_x = 0;
@@ -98,20 +96,17 @@ int	init_all(t_map_data *data, char *filename)
 	data->win = mlx_new_window(data->mlx, WIDTH, HEIGHT, "cub3D");
 	if (!data->win)
 	{
-        printf("Failed to create window\n");
-        return (0);
-    }
+		printf("Failed to create window\n");
+		return (0);
+	}
 	if (!init_textures(data))
-	 {
-        printf("Failed to load textures\n");
-        return (0);
-    }
+	{
+		printf("Failed to load textures\n");
+		return (0);
+	}
 	init_keys(data);
 	if (!init_image(data))
-	{
-        printf("Failed to create image\n");
-        return (0);
-    }
+		return (0);
 	init_player(data);
 	mlx_hook(data->win, 2, 1L << 0, key_press, data);
 	mlx_hook(data->win, 3, 1L << 1, key_release, data);
