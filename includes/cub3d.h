@@ -6,7 +6,7 @@
 /*   By: mabi-nak <mabi-nak@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/26 15:14:29 by raldanda          #+#    #+#             */
-/*   Updated: 2025/08/13 11:26:53 by mabi-nak         ###   ########.fr       */
+/*   Updated: 2025/08/13 13:45:38 by mabi-nak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -115,9 +115,15 @@ typedef struct s_map_data
 	double		dir_y;
 	double		plane_x;
 	double		plane_y;
-	// void		*current_tex_img;
-	// int			current_tex_width;
-	// int			current_tex_height;
+	void		*tex_img;
+	int			tex_width;
+	int			tex_height;
+	double		sideDistX;
+	double		sideDistY;
+	double		deltaDistX;
+	double		deltaDistY;
+	int			stepX;
+	int			stepY;
 	t_keys		keys;
 	t_image		img;
 	t_draw_line	current_line;
