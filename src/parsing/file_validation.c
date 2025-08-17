@@ -6,7 +6,7 @@
 /*   By: raldanda <raldanda@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/23 00:40:29 by raldanda          #+#    #+#             */
-/*   Updated: 2025/08/10 17:29:11 by raldanda         ###   ########.fr       */
+/*   Updated: 2025/08/17 22:34:16 by raldanda         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,7 +60,6 @@ int	parse_color(char *line, t_color *color)
 	return (free_split(sp), i == 3);
 }
 
-//set textures and no dup
 int	set_texture(char **dst, char *value)
 {
 	char	*clean;

@@ -6,7 +6,7 @@
 /*   By: raldanda <raldanda@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/04 18:03:08 by raldanda          #+#    #+#             */
-/*   Updated: 2025/08/13 00:00:50 by raldanda         ###   ########.fr       */
+/*   Updated: 2025/08/17 23:04:16 by raldanda         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,28 +30,6 @@ int	parse_line(char *line, t_map_data *data)
 	return (0);
 }
 
-int	parse_cub_file(char *file, t_map_data *data)
-{
-	char	**lines;
-	int		i;
-
-	if (!is_cub_file(file))
-		return (0);
-	lines = read_lines(file);
-	if (!lines)
-		return (0);
-	i = 0;
-	if (!consume_identifiers(lines, data, &i))
-	{
-		free_string_array(lines);
-		free_data(data);
-		return (0);
-	}
-	while (lines[i] && is_space_str(lines[i]))
-		i++;
-	return (parse_map_section(lines, data, i));
-}
-
 static int	append_take(char ***lines, size_t *cap, size_t *n, char *tmp)
 {
 	char		**new_lines;
@@ -69,7 +47,8 @@ static int	append_take(char ***lines, size_t *cap, size_t *n, char *tmp)
 		*lines = new_lines;
 		*cap = new_cap;
 	}
-	(*lines)[*n] = tmp;
+	(*lines)[*n] = ft_strdup(tmp);
+	free(tmp);
 	*n += 1;
 	return (1);
 }
@@ -83,6 +62,11 @@ static int	read_lines_fill(int fd, char ***lines, size_t *cap, size_t *n)
 		tmp = get_next_line(fd);
 		if (!tmp)
 			break ;
+		if (tmp[0] == '\0' || (tmp[0] == '\n' && tmp[1] == '\0'))
+		{
+			free(tmp);
+			continue ;
+		}
 		if (!append_take(lines, cap, n, tmp))
 			return (0);
 	}
@@ -116,4 +100,26 @@ char	**read_lines(char *filename)
 	close(fd);
 	lines[n] = NULL;
 	return (lines);
+}
+
+int	parse_cub_file(char *file, t_map_data *data)
+{
+	char	**lines;
+	int		i;
+
+	if (!is_cub_file(file))
+		return (0);
+	lines = read_lines(file);
+	if (!lines)
+		return (0);
+	i = 0;
+	if (!consume_identifiers(lines, data, &i))
+	{
+		free_string_array(lines);
+		free_data(data);
+		return (0);
+	}
+	while (lines[i] && is_space_str(lines[i]))
+		i++;
+	return (parse_map_section(lines, data, i));
 }

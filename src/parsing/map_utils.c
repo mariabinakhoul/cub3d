@@ -6,7 +6,7 @@
 /*   By: raldanda <raldanda@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/12 22:49:59 by raldanda          #+#    #+#             */
-/*   Updated: 2025/08/12 22:59:48 by raldanda         ###   ########.fr       */
+/*   Updated: 2025/08/17 23:21:15 by raldanda         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,6 +71,9 @@ void	free_data(t_map_data *data)
 		free(data->textures.we);
 	if (data->textures.ea)
 		free(data->textures.ea);
+	printf("HERE!\n");
+	if (data->map_lines)
+		free_string_array(data->map_lines);
 }
 
 void	free_lines_partial(char **lines, size_t count)

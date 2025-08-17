@@ -6,7 +6,7 @@
 /*   By: raldanda <raldanda@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/08 17:43:00 by raldanda          #+#    #+#             */
-/*   Updated: 2025/08/10 16:12:51 by raldanda         ###   ########.fr       */
+/*   Updated: 2025/08/17 22:33:46 by raldanda         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,6 @@ int	count_words(char *str, char *charset)
 	return (count);
 }
 
-// Allocates and copies a word
 char	*word_dup(char *str, char *charset)
 {
 	int		len;
@@ -64,7 +63,6 @@ char	*word_dup(char *str, char *charset)
 	return (word);
 }
 
-// Splits the string by the characters in charset
 char	**ft_split_charset(char *str, char *charset)
 {
 	int		i;

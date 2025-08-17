@@ -6,7 +6,7 @@
 /*   By: raldanda <raldanda@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/05 18:23:34 by raldanda          #+#    #+#             */
-/*   Updated: 2025/08/12 22:51:21 by raldanda         ###   ########.fr       */
+/*   Updated: 2025/08/17 22:41:54 by raldanda         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,7 +73,6 @@ void	flood_every_open(char **map)
 	}
 }
 
-// copy = dup_map(data->map_lines);
 void	validate_map(t_map_data *data)
 {
 	char	**copy;
