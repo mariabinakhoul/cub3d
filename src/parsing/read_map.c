@@ -6,49 +6,51 @@
 /*   By: raldanda <raldanda@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/04 18:03:08 by raldanda          #+#    #+#             */
-/*   Updated: 2025/08/17 23:04:16 by raldanda         ###   ########.fr       */
+/*   Updated: 2025/08/19 16:01:32 by raldanda         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/cub3d.h"
 
-int	parse_line(char *line, t_map_data *data)
+static int	grow_lines(char ***lines, size_t *cap, size_t n, char *tmp)
 {
-	char	**sp;
-	int		ret;
+	char	**new_lines;
+	size_t	new_cap;
+	size_t	i;
 
-	sp = ft_split_ws(line);
-	if (!sp || !sp[0] || !sp[1])
+	if (*cap == 0)
+		new_cap = 8;
+	else
+		new_cap = *cap * 2;
+	new_lines = malloc(new_cap * sizeof(char *));
+	if (new_lines == NULL)
 	{
-		free_split(sp);
+		free(tmp);
 		return (0);
 	}
-	ret = handle_directive(sp[0], sp[1], data);
-	free_split(sp);
-	if (ret == 1)
-		return (2);
-	return (0);
+	i = 0;
+	while (i < n)
+	{
+		new_lines[i] = (*lines)[i];
+		i++;
+	}
+	free(*lines);
+	*lines = new_lines;
+	*cap = new_cap;
+	return (1);
 }
 
-static int	append_take(char ***lines, size_t *cap, size_t *n, char *tmp)
+int	append_take(char ***lines, size_t *cap, size_t *n, char *tmp)
 {
-	char		**new_lines;
-	size_t		new_cap;
-
 	if (*n + 1 >= *cap)
 	{
-		new_cap = *cap * 2;
-		new_lines = realloc(*lines, new_cap * sizeof(**lines));
-		if (!new_lines)
-		{
-			free(tmp);
+		if (!grow_lines(lines, cap, *n, tmp))
 			return (0);
-		}
-		*lines = new_lines;
-		*cap = new_cap;
 	}
 	(*lines)[*n] = ft_strdup(tmp);
 	free(tmp);
+	if (!(*lines)[*n])
+		return (0);
 	*n += 1;
 	return (1);
 }

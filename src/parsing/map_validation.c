@@ -6,7 +6,7 @@
 /*   By: raldanda <raldanda@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/05 18:23:34 by raldanda          #+#    #+#             */
-/*   Updated: 2025/08/17 22:41:54 by raldanda         ###   ########.fr       */
+/*   Updated: 2025/08/19 15:52:15 by raldanda         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,12 +73,40 @@ void	flood_every_open(char **map)
 	}
 }
 
-void	validate_map(t_map_data *data)
+void	free_map(char **map)
 {
-	char	**copy;
+	int	i;
 
-	check_map_character(data->map_lines);
-	copy = fill_map_holes(data->map_lines);
-	flood_every_open(copy);
-	free_map(copy);
+	i = 0;
+	while (map && map[i])
+		free(map[i++]);
+	free(map);
 }
+
+int	parse_line(char *line, t_map_data *data)
+{
+	char	**sp;
+	int		ret;
+
+	sp = ft_split_ws(line);
+	if (!sp || !sp[0] || !sp[1])
+	{
+		free_split(sp);
+		return (0);
+	}
+	ret = handle_directive(sp[0], sp[1], data);
+	free_split(sp);
+	if (ret == 1)
+		return (2);
+	return (0);
+}
+
+// void	validate_map(t_map_data *data)
+// {
+// 	char	**copy;
+
+// 	check_map_character(data->map_lines);
+// 	copy = fill_map_holes(data->map_lines);
+// 	flood_every_open(copy);
+// 	free_map(copy);
+// }

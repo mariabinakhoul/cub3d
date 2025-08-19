@@ -6,7 +6,7 @@
 /*   By: raldanda <raldanda@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/12 22:49:59 by raldanda          #+#    #+#             */
-/*   Updated: 2025/08/17 23:21:15 by raldanda         ###   ########.fr       */
+/*   Updated: 2025/08/19 14:10:37 by raldanda         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,29 +38,6 @@ int	check_map_character(char **map)
 	return (1);
 }
 
-int	handle_directive(char *key, char *val, t_map_data *data)
-{
-	int	ret;
-
-	if (!ft_strcmp(key, "NO"))
-		ret = set_texture(&data->textures.no, val);
-	else if (!ft_strcmp(key, "SO"))
-		ret = set_texture(&data->textures.so, val);
-	else if (!ft_strcmp(key, "WE"))
-		ret = set_texture(&data->textures.we, val);
-	else if (!ft_strcmp(key, "EA"))
-		ret = set_texture(&data->textures.ea, val);
-	else if (!ft_strcmp(key, "F"))
-		ret = parse_color(val, &data->floor);
-	else if (!ft_strcmp(key, "C"))
-		ret = parse_color(val, &data->ceiling);
-	else
-		return (-1);
-	if (ret)
-		return (1);
-	return (0);
-}
-
 void	free_data(t_map_data *data)
 {
 	if (data->textures.no)
@@ -71,7 +48,6 @@ void	free_data(t_map_data *data)
 		free(data->textures.we);
 	if (data->textures.ea)
 		free(data->textures.ea);
-	printf("HERE!\n");
 	if (data->map_lines)
 		free_string_array(data->map_lines);
 }
@@ -93,13 +69,17 @@ void	free_lines_partial(char **lines, size_t count)
 
 int	parse_map_section(char **lines, t_map_data *data, int i)
 {
+	char	**subset;
+
 	if (!lines[i] || !valid_map_block(lines, i))
 	{
 		free_string_array(lines);
 		free_data(data);
 		return (0);
 	}
-	data->map_lines = &lines[i];
+	subset = dup_map(&lines[i]);
+	free_string_array(lines);
+	data->map_lines = subset;
 	validate_map(data);
 	return (1);
 }

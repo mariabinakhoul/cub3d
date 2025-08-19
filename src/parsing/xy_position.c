@@ -6,7 +6,7 @@
 /*   By: raldanda <raldanda@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/21 13:27:18 by raldanda          #+#    #+#             */
-/*   Updated: 2025/08/13 16:00:03 by raldanda         ###   ########.fr       */
+/*   Updated: 2025/08/19 14:06:50 by raldanda         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,8 +72,7 @@ void	save_pos(t_map_data *d, int x, int y, int *found)
 	d->start_x = x;
 	d->start_y = y;
 	d->start_dir = d->map_lines[y][x];
-	if (!d->start_x || !d->start_y)
-		exit_error("malloc error\n");
+	d->map_lines[y][x] = '0';
 	*found = 1;
 }
 
@@ -86,13 +85,17 @@ int	set_player_pos(t_map_data *d)
 	if (!d || !d->map_lines)
 		exit_error("internal map error\n");
 	found = 0;
-	i = -1;
-	while (d->map_lines[++i])
+	i = 0;
+	while (d->map_lines[i] != NULL)
 	{
-		j = -1;
-		while (d->map_lines[i][++j])
+		j = 0;
+		while (d->map_lines[i][j] != '\0')
+		{
 			if (is_player(d->map_lines[i][j]))
 				save_pos(d, j, i, &found);
+			j++;
+		}
+		i++;
 	}
 	if (!found)
 		exit_error("missing player spawn\n");

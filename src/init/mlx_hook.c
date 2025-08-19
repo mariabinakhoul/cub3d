@@ -6,7 +6,7 @@
 /*   By: raldanda <raldanda@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/13 11:13:22 by mabi-nak          #+#    #+#             */
-/*   Updated: 2025/08/17 23:27:45 by raldanda         ###   ########.fr       */
+/*   Updated: 2025/08/19 15:55:05 by raldanda         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,8 +53,8 @@ int	key_release(int keycode, t_map_data *data)
 
 int	close_window(t_map_data *data)
 {
-	// free_data(data);
 	mlx_destroy_window(data->mlx, data->win);
+	//mlx_destroy_image();
 	exit(0);
 	return (0);
 }

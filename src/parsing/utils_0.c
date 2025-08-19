@@ -6,7 +6,7 @@
 /*   By: raldanda <raldanda@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/08 17:43:00 by raldanda          #+#    #+#             */
-/*   Updated: 2025/08/17 22:33:46 by raldanda         ###   ########.fr       */
+/*   Updated: 2025/08/19 11:51:36 by raldanda         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,12 +91,11 @@ char	**ft_split_charset(char *str, char *charset)
 	return (result);
 }
 
-void	free_map(char **map)
-{
-	int	i;
-
-	i = 0;
-	while (map && map[i])
-		free(map[i++]);
-	free(map);
-}
+// unsigned int	clamp8(int x)
+// {
+// 	if (x < 0)
+// 		return (0);
+// 	else if (x > 255)
+// 		return (255);
+// 	return ((unsigned int)x);
+// }
