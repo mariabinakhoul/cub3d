@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   raycasting_3.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: raldanda <raldanda@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mabi-nak <mabi-nak@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/19 15:16:16 by raldanda          #+#    #+#             */
-/*   Updated: 2025/08/19 15:54:18 by raldanda         ###   ########.fr       */
+/*   Updated: 2025/08/25 11:18:05 by mabi-nak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,7 @@ void	clear_image(t_map_data *data)
 		x = 0;
 		while (x < WIDTH)
 		{
-			my_mlx_pixel_put(&data->img, x, y, 0x87CEEB);
+			my_mlx_pixel_put(&data->img, x, y, data->ceiling_color);
 			x++;
 		}
 		y++;
@@ -65,7 +65,7 @@ void	clear_image(t_map_data *data)
 		x = 0;
 		while (x < WIDTH)
 		{
-			my_mlx_pixel_put(&data->img, x, y, 0xE6A9B8);
+			my_mlx_pixel_put(&data->img, x, y, data->floor_color);
 			x++;
 		}
 		y++;

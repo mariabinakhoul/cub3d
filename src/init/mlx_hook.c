@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   mlx_hook.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: raldanda <raldanda@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mabi-nak <mabi-nak@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/13 11:13:22 by mabi-nak          #+#    #+#             */
-/*   Updated: 2025/08/19 15:55:05 by raldanda         ###   ########.fr       */
+/*   Updated: 2025/08/25 10:54:29 by mabi-nak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,10 +27,7 @@ int	key_press(int keycode, t_map_data *data)
 	else if (keycode == 65363)
 		data->keys.right = 1;
 	else if (keycode == 65307)
-	{
-		printf("hello\n");
 		exit(0);
-	}
 	return (0);
 }
 
@@ -54,7 +51,6 @@ int	key_release(int keycode, t_map_data *data)
 int	close_window(t_map_data *data)
 {
 	mlx_destroy_window(data->mlx, data->win);
-	//mlx_destroy_image();
 	exit(0);
 	return (0);
 }

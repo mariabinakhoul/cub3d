@@ -6,11 +6,40 @@
 /*   By: mabi-nak <mabi-nak@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/18 09:40:38 by mabi-nak          #+#    #+#             */
-/*   Updated: 2025/08/13 11:14:11 by mabi-nak         ###   ########.fr       */
+/*   Updated: 2025/08/25 10:54:00 by mabi-nak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/cub3d.h"
+
+static void	handle_strafe_and_rotation(t_map_data *data)
+{
+	double	new_x;
+	double	new_y;
+
+	if (data->keys.a)
+	{
+		new_x = data->player_x - data->plane_x * MOVE_SPEED;
+		new_y = data->player_y - data->plane_y * MOVE_SPEED;
+		if (data->map_lines[(int)new_y][(int)new_x] != '1')
+		{
+			data->player_x = new_x;
+			data->player_y = new_y;
+		}
+	}
+	if (data->keys.d)
+	{
+		new_x = data->player_x + data->plane_x * MOVE_SPEED;
+		new_y = data->player_y + data->plane_y * MOVE_SPEED;
+		if (data->map_lines[(int)new_y][(int)new_x] != '1')
+		{
+			data->player_x = new_x;
+			data->player_y = new_y;
+		}
+	}
+	if (data->keys.left || data->keys.right)
+		rotate_player(data);
+}
 
 void	move_player(t_map_data *data)
 {
@@ -37,28 +66,7 @@ void	move_player(t_map_data *data)
 			data->player_y = new_y;
 		}
 	}
-	if (data->keys.a)
-	{
-		new_x = data->player_x - data->plane_x * MOVE_SPEED;
-		new_y = data->player_y - data->plane_y * MOVE_SPEED;
-		if (data->map_lines[(int)new_y][(int)new_x] != '1')
-		{
-			data->player_x = new_x;
-			data->player_y = new_y;
-		}
-	}
-	if (data->keys.d)
-	{
-		new_x = data->player_x + data->plane_x * MOVE_SPEED;
-		new_y = data->player_y + data->plane_y * MOVE_SPEED;
-		if (data->map_lines[(int)new_y][(int)new_x] != '1')
-		{
-			data->player_x = new_x;
-			data->player_y = new_y;
-		}
-	}
-	if (data->keys.left || data->keys.right)
-		rotate_player(data);
+	handle_strafe_and_rotation(data);
 }
 
 void	rotate_player(t_map_data *data)

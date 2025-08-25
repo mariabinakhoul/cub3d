@@ -6,7 +6,7 @@
 /*   By: mabi-nak <mabi-nak@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/11 11:01:31 by mabi-nak          #+#    #+#             */
-/*   Updated: 2025/08/13 11:44:27 by mabi-nak         ###   ########.fr       */
+/*   Updated: 2025/08/25 10:55:11 by mabi-nak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,40 +50,6 @@ int	init_image(t_map_data *data)
 	if (!data->img.addr)
 		return (0);
 	return (1);
-}
-
-void	init_player(t_map_data *data)
-{
-	data->player_x = data->start_x + 0.5;
-	data->player_y = data->start_y + 0.5;
-	if (data->start_dir == 'N')
-	{
-		data->dir_x = 0;
-		data->dir_y = -1;
-		data->plane_x = 0.66;
-		data->plane_y = 0;
-	}
-	else if (data->start_dir == 'S')
-	{
-		data->dir_x = 0;
-		data->dir_y = 1;
-		data->plane_x = -0.66;
-		data->plane_y = 0;
-	}
-	else if (data->start_dir == 'E')
-	{
-		data->dir_x = 1;
-		data->dir_y = 0;
-		data->plane_x = 0;
-		data->plane_y = 0.66;
-	}
-	else if (data->start_dir == 'W')
-	{
-		data->dir_x = -1;
-		data->dir_y = 0;
-		data->plane_x = 0;
-		data->plane_y = -0.66;
-	}
 }
 
 int	init_all(t_map_data *data, char *filename)

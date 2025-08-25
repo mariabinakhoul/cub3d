@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   handle_rgb.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: raldanda <raldanda@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mabi-nak <mabi-nak@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/19 11:49:08 by raldanda          #+#    #+#             */
-/*   Updated: 2025/08/19 15:08:16 by raldanda         ###   ########.fr       */
+/*   Updated: 2025/08/25 11:10:46 by mabi-nak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,14 +40,14 @@ int	handle_color(char *key, char *val, t_map_data *data)
 	if (!ft_strcmp(key, "F"))
 	{
 		ret = parse_color(val, &data->floor);
-		if (!ret)
+		if (ret)
 			data->floor_color = rgb_pack(&data->floor);
 		return (ret);
 	}
 	if (!ft_strcmp(key, "C"))
 	{
 		ret = parse_color(val, &data->ceiling);
-		if (!ret)
+		if (ret)
 			data->ceiling_color = rgb_pack(&data->ceiling);
 		return (ret);
 	}

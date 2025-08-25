@@ -32,7 +32,8 @@ SRC_FILES   = main.c \
 			  getnextline/get_next_line_utils.c\
 			  init/init_all.c init/mlx_hook.c init/player_mov.c\
 			  utils.c\
-			  raycasting/raycasting_1.c raycasting/raycasting_2.c raycasting/raycasting_3.c
+			  raycasting/raycasting_1.c raycasting/raycasting_2.c raycasting/raycasting_3.c\
+			  init/init_player.c\
 
 SRC         = $(addprefix $(SRC_DIR)/, $(SRC_FILES))
 OBJ         = $(addprefix $(OBJ_DIR)/, $(SRC_FILES:.c=.o))

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: raldanda <raldanda@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mabi-nak <mabi-nak@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/23 00:45:54 by raldanda          #+#    #+#             */
-/*   Updated: 2025/08/19 15:53:52 by raldanda         ###   ########.fr       */
+/*   Updated: 2025/08/25 10:58:06 by mabi-nak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,18 @@ void	validate_map(t_map_data *data)
 	copy = fill_map_holes(data->map_lines);
 	flood_every_open(copy);
 	free_map(copy);
+}
+
+static void	run_game(t_map_data *data, char *filename)
+{
+	set_player_pos(data);
+	if (!init_all(data, filename))
+		exit_error("Initialization failed");
+	clear_image(data);
+	render_frame(data);
+	mlx_put_image_to_window(data->mlx, data->win, data->img.img, 0, 0);
+	mlx_loop(data->mlx);
+	free_data(data);
 }
 
 int	main(int argc, char **argv)
@@ -45,13 +57,6 @@ int	main(int argc, char **argv)
 		return (1);
 	}
 	free(clean);
-	set_player_pos(&data);
-	if (!init_all(&data, argv[1]))
-		exit_error("Initialization failed");
-	clear_image(&data);
-	render_frame(&data);
-	mlx_put_image_to_window(data.mlx, data.win, data.img.img, 0, 0);
-	mlx_loop(data.mlx);
-	free_data(&data);
+	run_game(&data, argv[1]);
 	return (0);
 }
